@@ -1,0 +1,1522 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>Ladekosten-Dashboard</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB4PSIyIiB5PSIyIiB3aWR0aD0iOTYiIGhlaWdodD0iOTYiIHJ4PSIyNCIgZmlsbD0iIzBiNGY4YSIvPjxwYXRoIGQ9Ik02MCAxMCBMMjYgNTggTDQ0IDU4IEwzOCA5MCBMNzQgMzkgTDUwIDM5IFoiIGZpbGw9IiNmZmZmZmYiLz48L3N2Zz4K">
+<link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjoiTGFkZWtvc3Rlbi1EYXNoYm9hcmQiLCJzaG9ydF9uYW1lIjoiTGFkZWtvc3RlbiIsInN0YXJ0X3VybCI6Ii4vIiwiZGlzcGxheSI6InN0YW5kYWxvbmUiLCJiYWNrZ3JvdW5kX2NvbG9yIjoiI2U3ZTllYiIsInRoZW1lX2NvbG9yIjoiIzBiNGY4YSIsImljb25zIjpbeyJzcmMiOiJkYXRhOmltYWdlL3N2Zyt4bWw7YmFzZTY0LFBITjJaeUI0Yld4dWN6MGlhSFIwY0RvdkwzZDNkeTUzTXk1dmNtY3ZNakF3TUM5emRtY2lJSFpwWlhkQ2IzZzlJakFnTUNBeE1EQWdNVEF3SWo0OGNtVmpkQ0I0UFNJeUlpQjVQU0l5SWlCM2FXUjBhRDBpT1RZaUlHaGxhV2RvZEQwaU9UWWlJSEo0UFNJeU5DSWdabWxzYkQwaUl6QmlOR1k0WVNJdlBqeHdZWFJvSUdROUlrMDJNQ0F4TUNCTU1qWWdOVGdnVERRMElEVTRJRXd6T0NBNU1DQk1OelFnTXprZ1REVXdJRE01SUZvaUlHWnBiR3c5SWlObVptWm1abVlpTHo0OEwzTjJaejRLIiwic2l6ZXMiOiJhbnkiLCJ0eXBlIjoiaW1hZ2Uvc3ZnK3htbCIsInB1cnBvc2UiOiJhbnkifSx7InNyYyI6ImRhdGE6aW1hZ2Uvc3ZnK3htbDtiYXNlNjQsUEhOMlp5QjRiV3h1Y3owaWFIUjBjRG92TDNkM2R5NTNNeTV2Y21jdk1qQXdNQzl6ZG1jaUlIWnBaWGRDYjNnOUlqQWdNQ0F4TURBZ01UQXdJajQ4Y21WamRDQjNhV1IwYUQwaU1UQXdJaUJvWldsbmFIUTlJakV3TUNJZ1ptbHNiRDBpSXpCaU5HWTRZU0l2UGp4d1lYUm9JR1E5SWswMU55NDFJREl3SUV3ek1pQTFOaUJNTkRVdU5TQTFOaUJNTkRFZ09EQWdURFk0SURReExqYzFJRXcxTUNBME1TNDNOU0JhSWlCbWFXeHNQU0lqWm1abVptWm1JaTgrUEM5emRtYytDZz09Iiwic2l6ZXMiOiJhbnkiLCJ0eXBlIjoiaW1hZ2Uvc3ZnK3htbCIsInB1cnBvc2UiOiJtYXNrYWJsZSJ9XX0=">
+<meta name="theme-color" content="#0b4f8a">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Ladekosten">
+<link rel="apple-touch-icon" href="data:image/png;base64,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">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#e7e9eb; --surface:#f6f7f8; --ink:#242a30; --muted:#59626b; --line:#c5cad0;
+  --sign:#0b4f8a; --yellow:#f2b300; --yellow-ink:#1b1b1b; --plate:#ffffff; --plate-ink:#1b1b1b;
+  --accent:#0b4f8a; --accent-ink:#ffffff;
+  --ok:#1f7444; --ok-soft:#d8eee0; --bad:#b3261e; --bad-soft:#f6dcda;
+  --v0:#0b4f8a; --v1:#2a7f4f; --v2:#b85a14; --v3:#7a4fb0; --v4:#16808a; --v5:#9c3a63;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#171b1f; --surface:#1f252a; --ink:#e8ebee; --muted:#9ba5af; --line:#333b43;
+    --sign:#0d5aa0; --accent:#6db0f2; --accent-ink:#0b1218;
+    --ok:#5cc08a; --ok-soft:#1c3a2b; --bad:#f08a80; --bad-soft:#452420;
+    --v0:#5aa5f0; --v1:#4fb27d; --v2:#e0883f; --v3:#a884d8; --v4:#3fb3c0; --v5:#d16b98;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#171b1f; --surface:#1f252a; --ink:#e8ebee; --muted:#9ba5af; --line:#333b43;
+  --sign:#0d5aa0; --accent:#6db0f2; --accent-ink:#0b1218;
+  --ok:#5cc08a; --ok-soft:#1c3a2b; --bad:#f08a80; --bad-soft:#452420;
+  --v0:#5aa5f0; --v1:#4fb27d; --v2:#e0883f; --v3:#a884d8; --v4:#3fb3c0; --v5:#d16b98;
+  color-scheme:dark;
+}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.45 'Barlow',system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;font-variant-numeric:tabular-nums}
+h1,h2,h3{font-family:'Barlow Condensed','Arial Narrow',system-ui,sans-serif;font-weight:600;margin:0;line-height:1.1}
+:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.wrap{max-width:720px;margin:0 auto;padding:0 16px 72px}
+
+/* Kopf */
+.head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:20px 0 14px}
+.head h1{font-size:40px}
+.sub{margin:4px 0 0;color:var(--muted);font-size:15px}
+.plate{display:inline-block;background:var(--plate);color:var(--plate-ink);border:2px solid var(--plate-ink);border-radius:4px;padding:2px 9px;font-weight:600;font-size:14.5px;line-height:1.35}
+
+/* Reiter */
+.tabs{display:flex;position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:2px solid var(--line);margin:0 -16px;padding:0 10px;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tabs button{flex:1 0 auto;background:none;border:0;border-bottom:5px solid transparent;margin-bottom:-2px;padding:13px 14px 9px;font:600 19px 'Barlow Condensed','Arial Narrow',sans-serif;color:var(--muted);cursor:pointer;white-space:nowrap}
+.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--yellow)}
+
+/* Formularfelder */
+.filters{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0 4px}
+.filters .span{grid-column:1/-1}
+.filters.four{grid-template-columns:1fr 1fr}
+@media(min-width:560px){.filters{grid-template-columns:1fr 1fr 1fr}.filters .span{grid-column:auto}.filters.four{grid-template-columns:repeat(4,1fr)}}
+label.f{display:flex;flex-direction:column;gap:4px;font-size:14.5px;color:var(--muted);font-weight:500}
+select,input[type=text],input[type=date],input[type=datetime-local],textarea{font:inherit;color:var(--ink);background:var(--surface);border:1.5px solid var(--line);border-radius:6px;padding:9px 10px;min-height:44px;width:100%}
+select{appearance:none;-webkit-appearance:none;padding-right:34px;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'><path d='M1 1.5l5 5 5-5' fill='none' stroke='%23808a94' stroke-width='2'/></svg>");background-repeat:no-repeat;background-position:right 12px center;background-size:12px}
+textarea{font:13px/1.4 ui-monospace,Menlo,Consolas,monospace;min-height:130px;resize:vertical}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:9px 18px;border:2px solid var(--accent);background:var(--accent);color:var(--accent-ink);border-radius:6px;font:600 16px 'Barlow',system-ui,sans-serif;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--accent)}
+.btn.dark{background:var(--yellow-ink);border-color:var(--yellow-ink);color:var(--yellow)}
+.btn.danger{background:transparent;border-color:var(--bad);color:var(--bad)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn.sm{min-height:36px;padding:5px 14px;font-size:14.5px}
+.btn.xs{min-height:26px;padding:2px 9px;font-size:12.5px;border-width:1.5px}
+.rowact{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.chip.man{border-color:var(--accent);color:var(--accent)}
+.panel.entry{margin:14px 0}
+.btnrow{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}
+.icon{flex:0 0 44px;width:44px;height:44px;border:1.5px solid var(--line);background:var(--surface);border-radius:6px;font-size:24px;line-height:1;color:var(--muted);cursor:pointer}
+
+/* Hinweisschild (gelb, wie Baustellenbeschilderung) */
+.notice{display:flex;gap:12px;align-items:flex-start;background:var(--yellow);color:var(--yellow-ink);border:3px solid var(--yellow-ink);border-radius:6px;padding:12px 14px;margin:14px 0}
+.notice svg{flex:0 0 28px;margin-top:2px}
+.notice p{margin:0;font-weight:500}
+.notice .btn{margin-top:10px;min-height:40px}
+
+/* Wegweiser mit Kennzahlen */
+.sign{background:var(--sign);color:#fff;border-radius:12px;padding:7px;margin:16px 0 10px}
+.sign-in{border:2.5px solid #fff;border-radius:7px;padding:12px 16px 4px}
+.sign-head{font:600 22px/1.1 'Barlow Condensed','Arial Narrow',sans-serif}
+.sign-sub{font-size:15px;opacity:.85;margin:2px 0 10px}
+.srow{display:flex;justify-content:space-between;align-items:baseline;gap:12px;border-top:1.5px solid rgba(255,255,255,.38);padding:9px 0}
+.srow .n{font-size:17px;font-weight:500}
+.srow .v{font:600 30px/1 'Barlow Condensed','Arial Narrow',sans-serif;white-space:nowrap}
+.srow .v small{font-size:19px;font-weight:500;margin-left:3px}
+.srow.big .n{font-size:21px;font-weight:600}
+.srow.big .v{font-size:54px}
+.plates{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 4px 14px}
+
+/* Abschnitte */
+.sec{border-top:2px solid var(--line);margin-top:26px;padding-top:16px}
+.sec h2{font-size:27px}
+.sec-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}
+.ctl{display:inline-flex;border:1.5px solid var(--ink);border-radius:6px;overflow:hidden}
+.ctl button{background:none;border:0;padding:7px 14px;min-height:38px;font:600 15px 'Barlow',system-ui,sans-serif;color:var(--ink);cursor:pointer}
+.ctl button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.empty{padding:20px 0;color:var(--muted);margin:0}
+
+/* Diagramm */
+.chart{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px}
+.col{flex:1 0 76px;background:none;border:0;padding:0;font:inherit;color:inherit;cursor:pointer;display:flex;flex-direction:column;gap:6px;text-align:center}
+.stack{height:176px;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;border-bottom:4px solid var(--ink);padding:0 10px}
+.val{font:600 18px/1 'Barlow Condensed','Arial Narrow',sans-serif;margin-bottom:5px;white-space:nowrap}
+.seg{display:block;width:100%}
+.seg.top{border-radius:3px 3px 0 0}
+.seg.none,.sw.none{background:repeating-linear-gradient(135deg,var(--yellow) 0 5px,#1b1b1b 5px 10px)}
+.ml{font-weight:500;font-size:15px;color:var(--muted);padding-bottom:4px}
+.col.dim .stack{opacity:.38}
+.col[aria-pressed="true"] .ml{color:var(--ink);font-weight:600;box-shadow:inset 0 -4px 0 var(--yellow)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:10px;font-size:14.5px;color:var(--muted)}
+.sw{display:inline-block;width:12px;height:12px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+
+/* Aufteilung */
+.brow{padding:10px 0;border-top:1px solid var(--line)}
+.brow:first-child{border-top:0;padding-top:0}
+.bl{display:flex;justify-content:space-between;gap:12px;align-items:baseline;flex-wrap:wrap}
+.bl .name{font-weight:600}
+.bl .num{font:600 21px/1.1 'Barlow Condensed','Arial Narrow',sans-serif}
+.bl .num small{font:500 15px 'Barlow',sans-serif;color:var(--muted);margin:0 8px 0 2px}
+.bar{height:8px;background:var(--line);border-radius:2px;margin-top:6px;overflow:hidden}
+.bar i{display:block;height:100%}
+.bar i.none{background:repeating-linear-gradient(135deg,var(--yellow) 0 5px,#1b1b1b 5px 10px)}
+
+/* Vorgangsliste */
+.note{color:var(--muted);font-size:14.5px;margin:0 0 4px}
+.mh{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:2px 14px;margin:24px 0 0;padding-bottom:6px;border-bottom:3px solid var(--ink)}
+.mh h3{font-size:25px}
+.mh .mt{font-size:15px;color:var(--muted);font-weight:500}
+.row{display:flex;justify-content:space-between;gap:14px;padding:12px 0;border-bottom:1px solid var(--line)}
+.row .dt{font-weight:600}
+.meta{color:var(--muted);font-size:14.5px}
+.rr{text-align:right;flex:0 0 auto}
+.rr .k{font:600 25px/1 'Barlow Condensed','Arial Narrow',sans-serif}
+.rr .k small{font:500 15px 'Barlow',sans-serif;color:var(--muted);margin-left:2px}
+.rr .e{color:var(--muted);font-size:15px;margin-top:2px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:500;padding:2px 8px;border:1.5px solid var(--line);border-radius:4px;background:var(--surface)}
+.chip.flag{background:var(--yellow);color:var(--yellow-ink);border-color:var(--yellow-ink)}
+.dot{width:10px;height:10px;border-radius:2px;display:inline-block;flex:0 0 10px}
+
+/* Import und Verwaltung */
+.panel{border:1.5px solid var(--line);background:var(--surface);border-radius:8px;padding:14px 16px;margin:12px 0}
+.panel.ok{border-color:var(--ok);background:var(--ok-soft)}
+.panel.bad{border-color:var(--bad);background:var(--bad-soft)}
+.panel p{margin:0 0 6px}
+.hint{color:var(--muted);font-size:15px;margin:6px 0 0}
+.mapgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+.tally{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.pill{display:inline-block;min-width:68px;text-align:center;font-weight:600;font-size:13.5px;padding:2px 8px;border-radius:4px;border:1.5px solid var(--line)}
+.pill.neu{background:var(--ok-soft);border-color:var(--ok);color:var(--ok)}
+.pill.pruefen{background:var(--yellow);border-color:var(--yellow-ink);color:var(--yellow-ink)}
+.pill.duplikat{color:var(--muted)}
+.pill.geaendert{border-color:var(--accent);color:var(--accent)}
+.pill.fehler{background:var(--bad-soft);border-color:var(--bad);color:var(--bad)}
+.pill.summe{border-style:dashed;color:var(--muted)}
+.prow{display:grid;grid-template-columns:auto 1fr auto;gap:4px 12px;align-items:start;padding:10px 0;border-bottom:1px solid var(--line)}
+.arow{display:flex;align-items:center;gap:10px;margin:8px 0}
+.crow{padding:12px 0;border-bottom:1px solid var(--line)}
+.crow.un{border-left:8px solid var(--yellow);padding-left:12px}
+.chead{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.chead .cnt{margin-left:auto}
+.chead .id{color:var(--muted);font-size:13.5px;word-break:break-all;min-width:0}
+.icon.sm{flex:0 0 40px;width:40px;height:40px;font-size:22px}
+.confirm{margin-top:10px;padding:12px 14px;border:2px solid var(--bad);border-radius:6px;background:var(--bad-soft)}
+.confirm p{margin:0 0 8px}
+.chead b{font:600 21px/1 'Barlow Condensed','Arial Narrow',sans-serif;letter-spacing:.02em}
+.cfields{display:grid;grid-template-columns:1fr;gap:8px}
+.cfields.rule{grid-template-columns:1fr 1fr;align-items:end}
+.ruleact{justify-self:end}
+@media(min-width:520px){.cfields.rule{grid-template-columns:1fr 1fr 1fr auto}}
+@media(min-width:520px){.cfields:not(.rule){grid-template-columns:1fr 1fr}}
+.wbrow{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid var(--line)}
+.wbrow .id{color:var(--muted);font-size:13.5px;word-break:break-all}
+.foot{color:var(--muted);font-size:14px;margin:32px 0 0;border-top:2px solid var(--line);padding-top:12px}
+
+
+/* Bericht (A4) */
+textarea.sm{font:inherit;min-height:76px}
+.chk{display:flex;align-items:center;gap:10px;min-height:44px;font-weight:500;cursor:pointer}
+.chk input{width:22px;height:22px;accent-color:var(--accent)}
+.sheet-wrap{margin:16px 0 8px;overflow:hidden}
+.sheet{width:210mm;min-height:297mm;background:#fff;color:#161616;padding:16mm 16mm 18mm;box-shadow:0 1px 3px rgba(0,0,0,.3),0 10px 28px -10px rgba(0,0,0,.45);transform-origin:top left;font:9.6pt/1.42 'Barlow',system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif}
+.sheet h1{font:600 21pt/1.1 'Barlow Condensed','Arial Narrow',sans-serif;margin:0}
+.rp-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12mm;border-bottom:.9mm solid #0b4f8a;padding-bottom:3.5mm;margin-bottom:6mm}
+.rp-per{margin:1mm 0 0;color:#444;font-size:10.5pt}
+.rp-date{margin:0;color:#666;font-size:9pt;white-space:nowrap}
+.rp-addr{display:flex;justify-content:space-between;gap:12mm;margin-bottom:6mm}
+.rp-addr>div{flex:1}
+.rp-intro{margin:0 0 6mm}
+.rp-kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:3mm;margin:0 0 7mm}
+.rp-kpi>div{border:.25mm solid #c8c8c8;padding:2.2mm 3mm}
+.rp-kpi small{display:block;color:#666;font-size:8pt}
+.rp-kpi b{font:600 13pt/1.25 'Barlow Condensed','Arial Narrow',sans-serif}
+.rp-h{font:600 12pt/1.2 'Barlow Condensed','Arial Narrow',sans-serif;margin:4mm 0 1.5mm}
+.rp-t{width:100%;border-collapse:collapse;margin:0 0 6mm;font-size:8.8pt}
+.rp-t th{text-align:left;color:#444;font-weight:600;border-bottom:.5mm solid #161616;padding:1.4mm 1.5mm}
+.rp-t td{border-bottom:.2mm solid #cfcfcf;padding:1.4mm 1.5mm}
+.rp-t tfoot{display:table-row-group}
+.rp-t tfoot td{font-weight:600;background:#f3f3f3;border-top:.4mm solid #161616}
+.rp-t .r{text-align:right}
+.rp-t tr{break-inside:avoid}
+.rp-t thead{display:table-header-group}
+.rp-note{margin:0 0 5mm;color:#333}
+.rp-sign{display:flex;gap:26mm;margin-top:18mm}
+.rp-sign>div{flex:1;border-top:.25mm solid #161616;padding-top:1mm;font-size:8pt;color:#555}
+.rp-foot{margin:8mm 0 0;color:#333}
+.rp-empty{color:#666;margin:0}
+@page{size:A4;margin:14mm 14mm 16mm}
+@media print{
+  html,body{background:#fff!important}
+  :root{padding:0!important}
+  .head,.tabs,.foot,.no-print,.toast{display:none!important}
+  .wrap{max-width:none;padding:0}
+  .sheet-wrap{margin:0;overflow:visible;height:auto!important}
+  .sheet{width:auto;min-height:0;padding:0;box-shadow:none;transform:none!important}
+}
+
+/* Rückmeldung */
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(20px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:6px;font-weight:600;z-index:50;opacity:0;pointer-events:none;transition:opacity .2s;max-width:calc(100% - 32px)}
+.toast.on{opacity:1}
+@media (prefers-reduced-motion:reduce){.toast{transition:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="head">
+    <div>
+      <h1>Ladekosten</h1>
+      <p class="sub">Daten aus Sheet und Wallbox-Export, Stand 30.09.2026</p>
+    </div>
+    <span class="plate">Prototyp</span>
+  </header>
+  <nav class="tabs" role="tablist" aria-label="Bereiche">
+    <button role="tab" data-tab="overview">Übersicht</button>
+    <button role="tab" data-tab="list">Vorgänge</button>
+    <button role="tab" data-tab="report">Bericht</button>
+    <button role="tab" data-tab="import">Import</button>
+    <button role="tab" data-tab="admin">Verwaltung</button>
+  </nav>
+  <main id="app"></main>
+  <p class="foot">Die Daten bleiben in diesem Browser. Summen rechnet das Tool immer aus den Einzelzeilen, nie aus Summenzeilen der Datei.</p>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+<script>
+(function(){
+'use strict';
+
+/* ---------- Startdaten: die 29 Vorgänge aus Sheet und Wallbox-Export (Stand 30.09.2026) ---------- */
+const STORE='ladekosten-proto-v3', MAPSTORE='ladekosten-proto-map-v3';
+const WB_ID='KpKyezW3z2iaDmuXwtCMTe';
+const SC_WB_ID='tesla-supercharger';
+const RAW=[
+['2026-05-25T17:05:02','2026-05-25T18:36:30','B06522D5',6.09,2.08],
+['2026-05-26T10:18:36','2026-05-26T16:07:38','B06522D5',27.23,9.28],
+['2026-05-27T10:15:36','2026-05-27T14:20:59','B06522D5',22.46,7.66],
+['2026-05-28T09:36:49','2026-05-28T15:45:39','B06522D5',31.26,10.66],
+['2026-06-06T12:58:20','2026-06-06T15:37:06','B06522D5',10.42,3.55],
+['2026-06-20T19:16:45','2026-06-21T08:02:43','B06522D5',6.58,2.24],
+['2026-06-22T09:46:50','2026-06-22T22:14:13','B06522D5',25.10,8.56],
+['2026-07-18T14:23:19','2026-07-19T21:03:58','B06522D5',21.28,7.25],
+['2026-07-22T12:05:27','2026-07-23T07:43:47','B06522D5',26.35,8.98],
+['2026-07-23T14:27:06','2026-07-24T09:37:38','B06522D5',12.13,4.14],
+['2026-07-27T14:55:21','2026-07-28T08:10:52','B06522D5',0.48,0.16],
+['2026-07-28T09:37:34','2026-07-28T17:44:18','B06522D5',28.66,9.77],
+['2026-07-31T10:56:32','2026-08-01T17:24:30','B06522D5',33.09,11.28],
+['2026-08-08T11:56:40','2026-08-12T17:30:03','B06522D5',37.93,12.93],
+['2026-08-13T16:34:15','2026-08-13T18:36:39','B06522D5',7.23,2.46],
+['2026-08-13T20:46:36','2026-08-14T08:16:07','B06522D5',5.28,1.80],
+['2026-08-16T13:10:19','2026-08-16T19:42:30','B06522D5',11.48,3.91],
+['2026-08-19T13:12:18','2026-08-21T09:39:05','B06522D5',13.17,4.49],
+['2026-08-22T15:37:47','2026-08-23T12:51:06','B06522D5',16.91,5.76],
+['2026-08-23T16:14:49','2026-08-25T07:29:44','B06522D5',23.26,7.93],
+['2026-08-26T11:06:40','2026-08-27T07:37:19','B06522D5',9.48,3.23],
+['2026-08-27T15:04:31','2026-08-28T14:47:19','B06522D5',5.10,1.74],
+['2026-08-29T12:52:24','2026-08-29T17:52:05','B06522D5',16.12,5.50],
+['2026-08-30T14:30:11','2026-08-30T17:09:20','B06522D5',5.80,1.98],
+['2026-09-01T12:21:14','2026-09-02T07:25:50','B06522D5',10.73,3.65],
+['2026-09-02T12:42:23','2026-09-03T21:06:26','B06522D5',17.83,6.08],
+['2026-09-22T15:58:07','2026-09-22T19:11:35','B06522D5',3.87,1.32],
+['2026-09-23T13:00:21','2026-09-23T14:48:36','B06522D5',8.91,3.04],
+['2026-09-25T12:07:48','2026-09-27T08:55:14','B06522D5',17.64,6.02]
+];
+function demo(){
+  return {seq:100,
+    vehicles:[{id:'v1',name:'Tesla Model 3'}],
+    cards:[{rfid:'B06522D5',name:'',vehicleId:'v1'}],
+    wallboxes:[{id:WB_ID,name:'Keller'}],
+    tariff:{rules:[]},report:defaultReport(),
+    sessions:RAW.map((r,i)=>({id:'s'+i,wbId:WB_ID,rfid:r[2],start:r[0],end:r[1],kwh:r[3],price:0.34,cost:r[4],filePrice:0.34,fileCost:r[4]}))};
+}
+const SAMPLE=[
+'Tesla Model 3 - Falk Ehrlich;;;;;',
+';;;;;',
+'Zeitraum - September 2026;Wallbox;Authentifizierung;Geladen - Preis pro kWh;Geladen - kWh;Geladen - Kosten',
+'10.09.2026 09:00:00 - 10.09.2026 11:00:00;Keller (ID: '+WB_ID+');RFID: B06522D5;0,34 €;10,00;6,80 €',
+'07.09.2026 12:00:00 - 07.09.2026 15:20:10;Keller (ID: '+WB_ID+');RFID: B06522D9;0,34 €;12,50;4,26 €',
+'03.09.2026 18:05:12 - 04.09.2026 07:40:31;Keller (ID: '+WB_ID+');RFID: B06522D5;0,34 €;24,10;8,22 €',
+';;;;;',
+'Gesamt:;;;;29,90;19,28 €',
+';;;;;',
+'Tesla Model 3 - Falk Ehrlich;;;;;',
+';;;;;',
+'Zeitraum - August 2026;Wallbox;Authentifizierung;Geladen - Preis pro kWh;Geladen - kWh;Geladen - Kosten',
+'30.08.2026 14:30:11 - 30.08.2026 17:09:20;Keller (ID: '+WB_ID+');RFID: B06522D5;0,34 €;5,80;1,98 €',
+'13.08.2026 16:34:15 - 13.08.2026 18:36:39;Keller (ID: '+WB_ID+');RFID: B06522D5;0,34 €;7,23;2,50 €',
+'15.09.2026 08:10:00 - 15.09.2026 09:40:00;Büro (ID: BueroWB1);RFID: B06522D5;0,30 €;9,00;2,70 €',
+'xx.09.2026 08:00:00 - 12.09.2026 09:00:00;Keller (ID: '+WB_ID+');RFID: B06522D5;0,34 €;8,00;2,73 €',
+';;;;;',
+'Gesamt:;;;;22,03;7,18 €'
+].join('\n');
+
+/* ---------- Helfer ---------- */
+const $=(s,r)=>(r||document).querySelector(s);
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pad=n=>String(n).padStart(2,'0');
+const sum=(l,k)=>l.reduce((a,s)=>a+s[k],0);
+const uniq=a=>[...new Set(a)];
+const nfx=d=>new Intl.NumberFormat('de-DE',{minimumFractionDigits:d,maximumFractionDigits:d});
+const n0=nfx(0),n1=nfx(1),n2=nfx(2),n3=nfx(3);
+const n4=new Intl.NumberFormat('de-DE',{minimumFractionDigits:2,maximumFractionDigits:4});
+const pad2=n=>String(n).padStart(2,'0');
+const isoDate=d=>d.getFullYear()+'-'+pad2(d.getMonth()+1)+'-'+pad2(d.getDate());
+const MON=['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
+const MSH=['Jan','Feb','Mär','Apr','Mai','Jun','Jul','Aug','Sep','Okt','Nov','Dez'];
+const mLong=k=>MON[+k.slice(5,7)-1]+' '+k.slice(0,4);
+const mShort=k=>MSH[+k.slice(5,7)-1]+' '+k.slice(2,4);
+const fD=iso=>iso.slice(8,10)+'.'+iso.slice(5,7)+'.'+iso.slice(0,4);
+const fT=iso=>iso.slice(11,16);
+const toMs=iso=>{const m=iso.match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})/);return Date.UTC(+m[1],+m[2]-1,+m[3],+m[4],+m[5],+m[6]);};
+function dur(ms){
+  const mins=Math.round(ms/60000);
+  if(mins<60)return mins+' min';
+  const h=Math.floor(mins/60);
+  if(h<24)return h+' h '+(mins%60)+' min';
+  return Math.floor(h/24)+' T '+(h%24)+' h';
+}
+function monthKeys(list){
+  if(!list.length)return [];
+  const ks=list.map(s=>s.start.slice(0,7)).sort();
+  let y=+ks[0].slice(0,4),m=+ks[0].slice(5,7);
+  const y2=+ks[ks.length-1].slice(0,4),m2=+ks[ks.length-1].slice(5,7);
+  const out=[];
+  while(y<y2||(y===y2&&m<=m2)){out.push(y+'-'+pad(m));m++;if(m>12){m=1;y++;}}
+  return out;
+}
+function prevMonth(k){let y=+k.slice(0,4),m=+k.slice(5,7)-1;if(m<1){m=12;y--;}return y+'-'+pad(m);}
+
+/* ---------- Zustand ---------- */
+function defaultReport(){
+  return {title:'Ladekostenabrechnung',sender:'Falk Ehrlich',recipient:'',intro:'',footer:'',
+    blocks:{kpi:true,breakdown:true,sessions:false,price:true,sign:false}};
+}
+function load(){
+  try{
+    const j=localStorage.getItem(STORE);
+    if(j){
+      const o=JSON.parse(j);
+      if(o&&Array.isArray(o.sessions)&&Array.isArray(o.vehicles)&&Array.isArray(o.cards)){
+        o.wallboxes=Array.isArray(o.wallboxes)?o.wallboxes:[];
+        o.tariff=o.tariff&&Array.isArray(o.tariff.rules)?o.tariff:{rules:[]};
+        o.report=Object.assign(defaultReport(),o.report||{});
+        o.report.blocks=Object.assign(defaultReport().blocks,o.report.blocks||{});
+        o.sessions.forEach(s=>{if(s.fileCost==null){s.fileCost=s.cost;s.filePrice=s.price;}});
+        return o;
+      }
+    }
+  }catch(e){}
+  return demo();
+}
+function save(){applyTariff();try{localStorage.setItem(STORE,JSON.stringify(S));}catch(e){}}
+let S=load();
+applyTariff();
+/* Preisregeln: die jüngste Regel vor dem Vorgang gilt, bei gleichem Datum schlägt eine Wallbox-Regel die Regel für alle */
+function priceFor(s){
+  if(s.manual||s.wbId===SC_WB_ID)return null;
+  const d=s.start.slice(0,10);let best=null;
+  S.tariff.rules.forEach(r=>{
+    if(!r.from||r.from>d||!(r.price>0))return;
+    if(r.wbId!=='all'&&r.wbId!==s.wbId)return;
+    if(!best||r.from>best.from||(r.from===best.from&&r.wbId!=='all'&&best.wbId==='all'))best=r;
+  });
+  return best;
+}
+function applyTariff(){
+  S.sessions.forEach(s=>{
+    if(s.fileCost==null){s.fileCost=s.cost;s.filePrice=s.price;}
+    if(s.manual)return;
+    const r=priceFor(s);
+    if(r){s.price=r.price;s.cost=Math.round(s.kwh*r.price*100)/100;}
+    else{s.price=s.filePrice;s.cost=s.fileCost;}
+  });
+}
+const U={tab:'overview',veh:'all',card:'all',wb:'all',month:'all',metric:'kwh',confirmReset:false,delCard:null,delWb:null,rep:null,entry:null,delSess:null,restorePending:null};
+function newImp(){return {text:'',headers:[],rows:null,map:{},err:'',done:null,skipped:0,format:'wallbox',teslaLocIdx:-1,teslaPriceIdx:-1};}
+let imp=newImp();
+
+const cardOf=r=>S.cards.find(c=>c.rfid===r);
+const vehOfCard=r=>{const c=cardOf(r);return c&&c.vehicleId&&S.vehicles.some(v=>v.id===c.vehicleId)?c.vehicleId:null;};
+const isAssigned=r=>vehOfCard(r)!==null;
+const vehOf=s=>(s.vehicleId&&S.vehicles.some(v=>v.id===s.vehicleId))?s.vehicleId:(s.manual?null:vehOfCard(s.rfid));
+const vehName=id=>{const v=S.vehicles.find(x=>x.id===id);return v?v.name:'?';};
+const vehColor=id=>{const i=S.vehicles.findIndex(v=>v.id===id);return 'var(--v'+(i<0?0:i%6)+')';};
+const cardLabel=r=>{const c=cardOf(r);return c&&c.name?c.name+' ('+r+')':r;};
+const wbName=id=>{const w=S.wallboxes.find(x=>x.id===id);return w?w.name:id;};
+const TRI='<svg viewBox="0 0 28 26" width="28" height="26" aria-hidden="true"><path d="M14 2 26 24H2z" fill="none" stroke="#1b1b1b" stroke-width="3" stroke-linejoin="round"/><path d="M14 10v6" stroke="#1b1b1b" stroke-width="3" stroke-linecap="round"/><circle cx="14" cy="20" r="1.6" fill="#1b1b1b"/></svg>';
+const mismatch=s=>Math.abs(s.kwh*s.price-s.cost)>Math.max(0.03,0.02*s.cost);
+
+function filt(month){
+  return S.sessions.filter(s=>{
+    const v=vehOf(s);
+    if(U.veh==='none'){if(v!==null)return false;}
+    else if(U.veh!=='all'&&v!==U.veh)return false;
+    if(U.card!=='all'&&s.rfid!==U.card)return false;
+    if(U.wb!=='all'&&s.wbId!==U.wb)return false;
+    if(month&&s.start.slice(0,7)!==month)return false;
+    return true;
+  });
+}
+function sanitize(){
+  if(U.card!=='all'&&!S.sessions.some(s=>s.rfid===U.card))U.card='all';
+  if(U.wb!=='all'&&!S.wallboxes.some(w=>w.id===U.wb))U.wb='all';
+  if(U.veh!=='all'&&U.veh!=='none'&&!S.vehicles.some(v=>v.id===U.veh))U.veh='all';
+  if(U.month!=='all'&&!S.sessions.some(s=>s.start.slice(0,7)===U.month))U.month='all';
+}
+let tt;
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('on'),2600);}
+
+/* ---------- Übersicht ---------- */
+function filtersHTML(){
+  const cards=uniq(S.sessions.map(s=>s.rfid)).filter(r=>{
+    if(!r)return false;
+    if(U.veh==='all')return true;
+    const v=vehOfCard(r);
+    return U.veh==='none'?v===null:v===U.veh;
+  }).sort();
+  const months=uniq(S.sessions.map(s=>s.start.slice(0,7))).sort().reverse();
+  const opt=(v,l,sel)=>'<option value="'+esc(v)+'"'+(sel?' selected':'')+'>'+esc(l)+'</option>';
+  const many=S.wallboxes.length>1;
+  return '<div class="filters'+(many?' four':'')+'">'
+   +'<label class="f">Fahrzeug<select data-filter="veh">'+opt('all','Alle Fahrzeuge',U.veh==='all')+S.vehicles.map(v=>opt(v.id,v.name,U.veh===v.id)).join('')+opt('none','Nicht zugeordnet',U.veh==='none')+'</select></label>'
+   +'<label class="f">Karte<select data-filter="card">'+opt('all','Alle Karten',U.card==='all')+cards.map(r=>opt(r,cardLabel(r),U.card===r)).join('')+'</select></label>'
+   +(many?'<label class="f">Wallbox<select data-filter="wb">'+opt('all','Alle Wallboxen',U.wb==='all')+S.wallboxes.map(w=>opt(w.id,w.name,U.wb===w.id)).join('')+'</select></label>':'')
+   +'<label class="f'+(many?'':' span')+'">Monat<select data-filter="month">'+opt('all','Alle Monate',U.month==='all')+months.map(m=>opt(m,mLong(m),U.month===m)).join('')+'</select></label>'
+   +'</div>';
+}
+function noticeHTML(){
+  const un=S.sessions.filter(s=>!vehOf(s));
+  const flagged=S.sessions.filter(mismatch);
+  const tri='<svg viewBox="0 0 28 26" width="28" height="26" aria-hidden="true"><path d="M14 2 26 24H2z" fill="none" stroke="#1b1b1b" stroke-width="3" stroke-linejoin="round"/><path d="M14 10v6" stroke="#1b1b1b" stroke-width="3" stroke-linecap="round"/><circle cx="14" cy="20" r="1.6" fill="#1b1b1b"/></svg>';
+  let h='';
+  if(un.length){
+    const ids=uniq(un.map(s=>s.rfid)).filter(Boolean);
+    h+='<div class="notice">'+tri+'<div><p><b>'+un.length+' '+(un.length===1?'Vorgang':'Vorgänge')+'</b> ('+n2.format(sum(un,'kwh'))+' kWh) ohne Fahrzeug. '+(ids.length?(ids.length===1?'Karte ':'Karten ')+ids.map(esc).join(', ')+'.':'')+'</p><button class="btn dark" data-act="goto-admin">Karten zuordnen</button></div></div>';
+  }
+  if(flagged.length){
+    h+='<div class="notice">'+tri+'<div><p><b>'+flagged.length+' '+(flagged.length===1?'Vorgang':'Vorgänge')+'</b> mit Preisabweichung: kWh mal Preis passt nicht zu den Kosten. Die Liste markiert sie.</p></div></div>';
+  }
+  return h;
+}
+function periodText(L){
+  if(!L.length)return 'Keine Daten';
+  if(U.month!=='all')return mLong(U.month);
+  const ms=monthKeys(L),a=ms[0],b=ms[ms.length-1];
+  if(a===b)return mLong(a);
+  return a.slice(0,4)===b.slice(0,4)?MON[+a.slice(5,7)-1]+' bis '+mLong(b):mLong(a)+' bis '+mLong(b);
+}
+function delta(a,b){
+  if(!(b>0))return null;
+  const p=(a-b)/b*100;
+  return (p>=0?'+':'\u2212')+n0.format(Math.abs(p))+' %';
+}
+function signHTML(L){
+  const kwh=sum(L,'kwh'),cost=sum(L,'cost'),n=L.length;
+  const avgP=kwh>0?cost/kwh:0;
+  const parts=[];
+  if(U.veh!=='all')parts.push(U.veh==='none'?'Nicht zugeordnet':vehName(U.veh));
+  if(U.card!=='all')parts.push(cardLabel(U.card));
+  const plates=[];
+  if(U.month!=='all'){
+    const P=filt(prevMonth(U.month));
+    if(P.length){
+      const dc=delta(cost,sum(P,'cost')),dk=delta(kwh,sum(P,'kwh'));
+      if(dc)plates.push('Kosten '+dc+' gegenüber Vormonat');
+      if(dk)plates.push('Energie '+dk+' gegenüber Vormonat');
+    }
+  }else if(n){
+    const months=monthKeys(L).length||1;
+    plates.push('Ø '+n1.format(kwh/months)+' kWh je Monat');
+    plates.push('Ø '+n1.format(kwh/n)+' kWh je Vorgang');
+  }
+  return '<section class="sign" aria-label="Kennzahlen"><div class="sign-in">'
+    +'<div class="sign-head">'+esc(periodText(L))+'</div>'
+    +'<div class="sign-sub">'+esc(parts.length?parts.join(', '):'Alle Fahrzeuge')+'</div>'
+    +'<div class="srow big"><span class="n">Kosten</span><span class="v">'+n2.format(cost)+'<small>€</small></span></div>'
+    +'<div class="srow"><span class="n">Energie</span><span class="v">'+n2.format(kwh)+'<small>kWh</small></span></div>'
+    +'<div class="srow"><span class="n">Preis je kWh</span><span class="v">'+n3.format(avgP)+'<small>€</small></span></div>'
+    +'<div class="srow"><span class="n">Ladevorgänge</span><span class="v">'+n+'</span></div>'
+    +'</div></section>'
+    +(plates.length?'<div class="plates">'+plates.map(p=>'<span class="plate">'+esc(p)+'</span>').join('')+'</div>':'');
+}
+function chartHTML(){
+  const list=filt(null),ms=monthKeys(list);
+  if(!ms.length)return '<p class="empty">Keine Vorgänge für diese Auswahl. Ändere die Filter oder lade eine CSV im Bereich Import.</p>';
+  const groups=S.vehicles.map(v=>v.id).concat(['none']);
+  const key=U.metric==='kwh'?'kwh':'cost';
+  const fmt=v=>U.metric==='kwh'?n2.format(v):n2.format(v)+' €';
+  const data=ms.map(m=>{
+    const inM=list.filter(s=>s.start.slice(0,7)===m);
+    return {m:m,total:sum(inM,key),parts:groups.map(g=>({g:g,val:sum(inM.filter(s=>(vehOf(s)||'none')===g),key)}))};
+  });
+  const max=Math.max.apply(null,data.map(d=>d.total).concat([0.01]));
+  const H=140;
+  const cols=data.map(d=>{
+    const segs=d.parts.slice().reverse().filter(p=>p.val>0).map((p,i)=>{
+      const h=Math.max(3,Math.round(p.val/max*H));
+      return '<span class="seg'+(p.g==='none'?' none':'')+(i===0?' top':'')+'" style="height:'+h+'px;'+(p.g==='none'?'':'background:'+vehColor(p.g)+';')+'"></span>';
+    }).join('');
+    const sel=U.month===d.m,dim=U.month!=='all'&&!sel;
+    return '<button class="col'+(dim?' dim':'')+'" data-act="month" data-m="'+d.m+'" aria-pressed="'+sel+'" aria-label="'+esc(mLong(d.m)+': '+fmt(d.total))+'"><span class="stack"><span class="val">'+fmt(d.total)+'</span>'+segs+'</span><span class="ml">'+mShort(d.m)+'</span></button>';
+  }).join('');
+  const used=groups.filter(g=>list.some(s=>(vehOf(s)||'none')===g));
+  const legend=used.map(g=>'<span class="lg"><i class="sw'+(g==='none'?' none':'')+'"'+(g==='none'?'':' style="background:'+vehColor(g)+'"')+'></i>'+(g==='none'?'Nicht zugeordnet':esc(vehName(g)))+'</span>').join('');
+  return '<div class="chart" role="group" aria-label="Monatsverlauf">'+cols+'</div><div class="legend">'+legend+'</div>';
+}
+function breakdownHTML(L){
+  if(!L.length)return '<p class="empty">Keine Vorgänge für diese Auswahl.</p>';
+  const groups=S.vehicles.map(v=>v.id).concat(['none']);
+  const tot=sum(L,'cost')||1;
+  return groups.map(g=>{
+    const l=L.filter(s=>(vehOf(s)||'none')===g);
+    if(!l.length)return '';
+    const kwh=sum(l,'kwh'),cost=sum(l,'cost');
+    return '<div class="brow"><div class="bl"><span class="name">'+(g==='none'?'Nicht zugeordnet':esc(vehName(g)))+'</span><span class="num">'+n2.format(kwh)+'<small>kWh</small>'+n2.format(cost)+'<small>€</small></span></div>'
+      +'<div class="bar"><i class="'+(g==='none'?'none':'')+'" style="width:'+Math.max(2,cost/tot*100)+'%;'+(g==='none'?'':'background:'+vehColor(g))+'"></i></div></div>';
+  }).join('');
+}
+function wbBreakdownHTML(L){
+  if(!L.length)return '<p class="empty">Keine Vorgänge für diese Auswahl.</p>';
+  const tot=sum(L,'cost')||1;
+  return S.wallboxes.map(w=>{
+    const l=L.filter(s=>s.wbId===w.id);
+    if(!l.length)return '';
+    const kwh=sum(l,'kwh'),cost=sum(l,'cost');
+    return '<div class="brow"><div class="bl"><span class="name">'+esc(w.name)+'</span><span class="num">'+n2.format(kwh)+'<small>kWh</small>'+n2.format(cost)+'<small>€</small></span></div><div class="bar"><i style="width:'+Math.max(2,cost/tot*100)+'%;background:var(--sign)"></i></div></div>';
+  }).join('');
+}
+function overviewHTML(){
+  const L=filt(U.month==='all'?null:U.month);
+  return filtersHTML()+noticeHTML()+signHTML(L)
+    +'<section class="sec"><div class="sec-head"><h2>Verlauf je Monat</h2><div class="ctl" role="group" aria-label="Anzeige">'
+    +'<button data-act="metric" data-v="kwh" aria-pressed="'+(U.metric==='kwh')+'">kWh</button>'
+    +'<button data-act="metric" data-v="cost" aria-pressed="'+(U.metric==='cost')+'">Euro</button></div></div>'+chartHTML()+'</section>'
+    +'<section class="sec"><h2 style="margin-bottom:12px">Nach Fahrzeug</h2>'+breakdownHTML(L)+'</section>'
+    +(S.wallboxes.length>1?'<section class="sec"><h2 style="margin-bottom:12px">Nach Wallbox</h2>'+wbBreakdownHTML(L)+'</section>':'');
+}
+
+/* ---------- Vorgänge ---------- */
+function entryNew(){
+  const last=S.sessions.filter(x=>x.manual).sort((a,b)=>b.start.localeCompare(a.start))[0];
+  const now=new Date();
+  return {id:null,start:isoDate(now)+'T'+pad2(now.getHours())+':'+pad2(now.getMinutes()),end:'',kwh:'',price:'',cost:'',
+    place:last&&S.wallboxes.some(w=>w.id===last.wbId)?last.wbId:'__new',newPlace:'Tesla Supercharger',
+    veh:last&&last.vehicleId?last.vehicleId:(S.vehicles[0]?S.vehicles[0].id:''),note:''};
+}
+function entryFrom(x){
+  return {id:x.id,start:x.start.slice(0,16),end:x.end?x.end.slice(0,16):'',kwh:n2.format(x.kwh),price:n4.format(x.price),cost:n2.format(x.cost),
+    place:x.wbId,newPlace:'',veh:x.vehicleId||'',note:x.note||''};
+}
+function entryCalc(E){
+  const kwh=parseNum(E.kwh);
+  const hp=String(E.price).trim()!=='',hc=String(E.cost).trim()!=='';
+  const p=hp?parseNum(E.price):null,c=hc?parseNum(E.cost):null;
+  if(!(kwh>0))return {err:'Gib die Energie in kWh ein, größer als 0.'};
+  if(!hp&&!hc)return {err:'Gib den Preis je kWh oder die Gesamtkosten ein.'};
+  if((hp&&(p==null||p<0))||(hc&&(c==null||c<0)))return {err:'Preis und Kosten müssen Zahlen ab 0 sein.'};
+  let cost,price;
+  if(hc){cost=Math.round(c*100)/100;price=hp?p:cost/kwh;}
+  else{price=p;cost=Math.round(kwh*price*100)/100;}
+  return {kwh:kwh,price:price,cost:cost};
+}
+function entrySumText(E){
+  const c=entryCalc(E);
+  return c.err?'':'Ergibt '+n2.format(c.kwh)+' kWh zu '+n4.format(c.price)+' € je kWh, Kosten '+n2.format(c.cost)+' €.';
+}
+function updateEntrySum(){const el=$('#entrySum');if(el&&U.entry)el.textContent=entrySumText(U.entry);}
+function entryHTML(){
+  const E=U.entry,edit=!!E.id;
+  const opt=(v,l,sel)=>'<option value="'+esc(v)+'"'+(sel?' selected':'')+'>'+esc(l)+'</option>';
+  const places=S.wallboxes.map(w=>opt(w.id,w.name,E.place===w.id)).join('')+opt('__new','Neuer Ladeort',E.place==='__new');
+  const vehs=opt('','nicht zugeordnet',!E.veh)+S.vehicles.map(v=>opt(v.id,v.name,E.veh===v.id)).join('');
+  return '<section class="panel entry"><h2 style="font-size:24px">'+(edit?'Vorgang bearbeiten':'Ladevorgang erfassen')+'</h2>'
+    +'<p class="hint">'+(edit?'Nach dem Speichern zählt dieser Vorgang als manuell erfasst: Preisregeln ändern ihn ab jetzt nicht mehr.':'Für Ladungen ohne Eintrag in der Datei, zum Beispiel am Supercharger. Der Preis je kWh gilt nur für diesen Vorgang, Preisregeln greifen hier nicht.')+'</p>'
+    +'<div class="cfields" style="margin-top:12px">'
+    +'<label class="f">Start<input type="datetime-local" data-ef="start" value="'+esc(E.start)+'"></label>'
+    +'<label class="f">Ende (optional)<input type="datetime-local" data-ef="end" value="'+esc(E.end)+'"></label>'
+    +'<label class="f">Ladeort<select data-ef="place">'+places+'</select></label>'
+    +(E.place==='__new'?'<label class="f">Name des Ladeorts<input type="text" data-ef="newPlace" value="'+esc(E.newPlace)+'"></label>':'')
+    +'<label class="f">Fahrzeug<select data-ef="veh">'+vehs+'</select></label>'
+    +'<label class="f">Energie in kWh<input type="text" inputmode="decimal" data-ef="kwh" value="'+esc(E.kwh)+'" placeholder="zum Beispiel 42,5"></label>'
+    +'<label class="f">Preis je kWh in €<input type="text" inputmode="decimal" data-ef="price" value="'+esc(E.price)+'" placeholder="zum Beispiel 0,55"></label>'
+    +'<label class="f">Kosten gesamt in € (optional)<input type="text" inputmode="decimal" data-ef="cost" value="'+esc(E.cost)+'"></label>'
+    +'<label class="f">Notiz (optional)<input type="text" data-ef="note" value="'+esc(E.note)+'"></label>'
+    +'</div><p class="note" id="entrySum" style="margin-top:10px">'+esc(entrySumText(E))+'</p>'
+    +'<div class="btnrow"><button class="btn" data-act="entry-save">'+(edit?'Änderungen speichern':'Vorgang speichern')+'</button><button class="btn ghost" data-act="entry-cancel">Abbrechen</button></div></section>';
+}
+function saveEntry(){
+  const E=U.entry;if(!E)return;
+  const c=entryCalc(E);
+  if(c.err){toast(c.err);return;}
+  const re=/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/;
+  if(!re.test(E.start)){toast('Wähle Datum und Uhrzeit für den Start');return;}
+  if(E.end&&!re.test(E.end)){toast('Das Ende ist unvollständig');return;}
+  const start=E.start+':00',end=E.end?E.end+':00':null;
+  if(end&&toMs(end)<toMs(start)){toast('Das Ende liegt vor dem Start');return;}
+  let wbId=E.place;
+  if(wbId==='__new'){
+    const nm=(E.newPlace||'').trim();
+    if(!nm){toast('Gib dem Ladeort einen Namen');return;}
+    const ex=S.wallboxes.find(w=>w.name.toLowerCase()===nm.toLowerCase());
+    if(ex)wbId=ex.id;else{wbId='ort-'+(++S.seq);S.wallboxes.push({id:wbId,name:nm});}
+  }else if(!S.wallboxes.some(w=>w.id===wbId)){toast('Wähle einen Ladeort');return;}
+  const rec={wbId:wbId,rfid:'',start:start,end:end,kwh:c.kwh,price:c.price,cost:c.cost,filePrice:c.price,fileCost:c.cost,manual:true,vehicleId:E.veh||null,note:(E.note||'').trim()};
+  const edit=!!E.id;
+  if(edit){
+    const x=S.sessions.find(y=>y.id===E.id);
+    if(!x){toast('Der Vorgang existiert nicht mehr');U.entry=null;render();return;}
+    Object.assign(x,rec);
+  }else{rec.id='s'+(++S.seq);S.sessions.push(rec);}
+  U.entry=null;U.veh='all';U.card='all';U.wb='all';U.month='all';
+  save();render();toast(edit?'Vorgang gespeichert':'Vorgang erfasst');
+}
+function listHTML(){
+  const L=filt(U.month==='all'?null:U.month).slice().sort((a,b)=>b.start.localeCompare(a.start));
+  let h=filtersHTML()+(U.entry?entryHTML():'<div class="btnrow"><button class="btn" data-act="entry-new">Ladevorgang erfassen</button></div>');
+  if(!L.length)return h+'<p class="empty">Keine Vorgänge für diese Auswahl. Ändere die Filter oder lade eine CSV im Bereich Import.</p>';
+  h+='<p class="note">Steckzeit ist Ende minus Start. Sie sagt nichts über die reine Ladedauer.</p>';
+  const groups={};
+  L.forEach(s=>{const k=s.start.slice(0,7);(groups[k]=groups[k]||[]).push(s);});
+  Object.keys(groups).sort().reverse().forEach(k=>{
+    const g=groups[k];
+    h+='<h3 class="mh"><span>'+mLong(k)+'</span><span class="mt">'+g.length+' '+(g.length===1?'Vorgang':'Vorgänge')+', '+n2.format(sum(g,'kwh'))+' kWh, '+n2.format(sum(g,'cost'))+' €</span></h3>';
+    g.forEach(s=>{
+      const v=vehOf(s),man=!!s.manual;
+      let meta=man?'':'Ende unbekannt';
+      if(s.end){meta='bis '+(fD(s.end)===fD(s.start)?'':fD(s.end).slice(0,5)+' ')+fT(s.end)+', '+(man?'Dauer ':'Steckzeit ')+dur(toMs(s.end)-toMs(s.start));}
+      h+='<article class="row"><div><div class="dt">'+fD(s.start)+', '+fT(s.start)+'</div>'+(meta?'<div class="meta">'+meta+'</div>':'')+(man&&s.note?'<div class="meta">'+esc(s.note)+'</div>':'')
+        +'<div class="chips"><span class="chip"><i class="dot" style="'+(v?'background:'+vehColor(v):'background:repeating-linear-gradient(135deg,var(--yellow) 0 3px,#1b1b1b 3px 6px)')+'"></i>'+(v?esc(vehName(v)):'nicht zugeordnet')+'</span>'
+        +((man||!s.rfid)?'':'<span class="chip">'+esc(cardLabel(s.rfid))+'</span>')+(S.wallboxes.length>1||man?'<span class="chip">'+esc(wbName(s.wbId))+'</span>':'')+(s.loc?'<span class="chip">'+esc(s.loc)+'</span>':'')+(man?'<span class="chip man">manuell erfasst</span>':'')+(mismatch(s)?'<span class="chip flag">Preis prüfen</span>':'')+'</div>'
+        +(U.delSess===s.id?'<div class="confirm"><p><b>Vorgang löschen?</b> Das lässt sich nicht rückgängig machen.</p><div class="btnrow"><button class="btn danger sm" data-act="sess-purge" data-id="'+esc(s.id)+'">Löschen</button><button class="btn ghost sm" data-act="cancel-del">Abbrechen</button></div></div>'
+          :'<div class="rowact"><button class="btn ghost xs" data-act="edit-sess" data-id="'+esc(s.id)+'">Bearbeiten</button><button class="btn danger xs" data-act="del-sess" data-id="'+esc(s.id)+'">Löschen</button></div>')
+        +'</div><div class="rr"><div class="k">'+n2.format(s.kwh)+'<small>kWh</small></div><div class="e">'+n2.format(s.cost)+' €</div><div class="e">'+n4.format(s.price)+' €/kWh</div></div></article>';
+    });
+  });
+  return h;
+}
+
+/* ---------- CSV-Import ---------- */
+function parseCSV(text,d){
+  const rows=[];let row=[],cell='',q=false;
+  for(let i=0;i<text.length;i++){
+    const c=text[i];
+    if(q){if(c==='"'){if(text[i+1]==='"'){cell+='"';i++;}else q=false;}else cell+=c;}
+    else if(c==='"')q=true;
+    else if(c===d){row.push(cell);cell='';}
+    else if(c==='\n'){row.push(cell);rows.push(row);row=[];cell='';}
+    else if(c!=='\r')cell+=c;
+  }
+  if(cell!==''||row.length){row.push(cell);rows.push(row);}
+  return rows.filter(r=>r.some(c=>String(c).trim()!==''));
+}
+function parseNum(s){
+  if(s==null)return null;
+  s=String(s).replace(/kWh|[€\s]/gi,'');
+  if(!s)return null;
+  if(s.indexOf(',')>=0&&s.indexOf('.')>=0){
+    s=s.lastIndexOf(',')>s.lastIndexOf('.')?s.replace(/\./g,'').replace(',','.'):s.replace(/,/g,'');
+  }else if(s.indexOf(',')>=0)s=s.replace(',','.');
+  const n=parseFloat(s);
+  return isFinite(n)?n:null;
+}
+function parseDT(s){
+  s=(s||'').trim();
+  let m=s.match(/(\d{4})-(\d{2})-(\d{2})[ T](\d{1,2}):(\d{2})(?::(\d{2}))?/);
+  if(m)return m[1]+'-'+m[2]+'-'+m[3]+'T'+pad(m[4])+':'+m[5]+':'+(m[6]||'00');
+  m=s.match(/(\d{1,2})\.(\d{1,2})\.(\d{4})[ T]+(\d{1,2}):(\d{2})(?::(\d{2}))?/);
+  if(m)return m[3]+'-'+pad(m[2])+'-'+pad(m[1])+'T'+pad(m[4])+':'+m[5]+':'+(m[6]||'00');
+  return null;
+}
+function parseWb(s){
+  s=(s||'').trim();
+  if(!s)return {id:'wallbox-1',name:'Wallbox'};
+  const m=s.match(/^(.*?)\s*\(\s*ID:\s*([^)]+?)\s*\)/i);
+  if(m)return {id:m[2],name:m[1]||m[2]};
+  return {id:s,name:s};
+}
+const FIELDS=[['start','Zeitraum'],['wallbox','Wallbox (optional)'],['rfid','Authentifizierung (optional)'],['kwh','Geladen - kWh']];
+const RX={kosten:/kosten|betrag|cost/i,preis:/preis|price|tarif/i,kwh:/kwh|energie|menge/i,rfid:/rfid|karte|auth|token/i,wallbox:/wallbox|station|ladepunkt|charger/i,start:/zeitraum|start|beginn|\bvon\b|datum/i,ende:/ende|\bend\b|\bbis\b/i};
+function isTeslaExport(h){
+  const low=h.map(x=>String(x||'').toLowerCase().trim());
+  return low.indexOf('chargestartdatetime')>=0&&low.indexOf('sitelocationname')>=0&&low.indexOf('quantitybase')>=0;
+}
+function teslaColIdx(h){
+  const low=h.map(x=>String(x||'').toLowerCase().trim());
+  return {start:low.indexOf('chargestartdatetime'),loc:low.indexOf('sitelocationname'),kwh:low.indexOf('quantitybase'),price:low.indexOf('unitcostbase')};
+}
+function teslaLocClean(s){return String(s||'').replace(/,\s*Germany\b/i,'').trim();}
+function parseTeslaPrice(s){return parseNum(String(s||'').split('/')[0]);}
+const sigOf=h=>h.map(x=>x.toLowerCase().replace(/\d+/g,'').replace(new RegExp(MON.join('|'),'gi'),'').replace(/\s+/g,' ').trim()).join('|');
+function guessMap(h){
+  try{const j=JSON.parse(localStorage.getItem(MAPSTORE)||'null');if(j&&j.sig===sigOf(h))return j.map;}catch(e){}
+  const map={},used=new Set();
+  ['kwh','rfid','wallbox','start'].forEach(f=>{
+    const test=f==='kwh'?(x=>RX.kwh.test(x)&&!/preis/i.test(x)):(x=>RX[f].test(x));
+    const i=h.findIndex((x,k)=>!used.has(k)&&test(x));
+    map[f]=i;if(i>=0)used.add(i);
+  });
+  return map;
+}
+function saveMap(){try{localStorage.setItem(MAPSTORE,JSON.stringify({sig:sigOf(imp.headers),map:imp.map}));}catch(e){}}
+function parseImport(){
+  imp.done=null;imp.err='';
+  const text=imp.text.replace(/^\uFEFF/,'');
+  if(!text.trim()){imp.err='Keine Daten gefunden. Wähle eine CSV-Datei oder füge den Inhalt ein.';imp.rows=null;renderImpResult();return;}
+  const first=text.split(/\r?\n/).find(l=>l.trim())||'';
+  const cnt=d=>first.split(d).length-1;
+  const delim=[';','\t',','].sort((a,b)=>cnt(b)-cnt(a))[0];
+  const all=parseCSV(text,delim);
+  if(all.length<2){imp.err='Die Datei braucht eine Kopfzeile und mindestens eine Datenzeile.';imp.rows=null;renderImpResult();return;}
+  let hi=all.findIndex(r=>(r.some(c=>/kwh/i.test(c))&&r.some(c=>/zeitraum|start|beginn|datum|\bvon\b/i.test(c)))||isTeslaExport(r));
+  if(hi<0)hi=0;
+  const head=all[hi].map(h=>h.trim());
+  const isHead=r=>head.reduce((n,h,i)=>n+(i>0&&h&&String(r[i]==null?'':r[i]).trim()===h?1:0),0)>=2;
+  const isTitle=r=>r.slice(1).every(c=>String(c).trim()==='')&&!/^(gesamt|summe|total)\b/i.test(String(r[0]).trim())&&!parseDT(r[0]);
+  const body=all.slice(hi+1);
+  imp.headers=head;
+  imp.format=isTeslaExport(head)?'tesla':'wallbox';
+  imp.rows=body.filter(r=>!isHead(r)&&!isTitle(r));
+  imp.skipped=hi+(body.length-imp.rows.length);
+  if(!imp.rows.length){imp.err='Unter der Kopfzeile stehen keine Datenzeilen.';imp.rows=null;renderImpResult();return;}
+  if(imp.format==='tesla'){
+    const ti=teslaColIdx(imp.headers);
+    imp.map={start:ti.start,wallbox:-1,rfid:-1,kwh:ti.kwh};
+    imp.teslaLocIdx=ti.loc;imp.teslaPriceIdx=ti.price;
+  }else{
+    imp.map=guessMap(imp.headers);
+  }
+  renderImpResult();
+}
+function resolveWb(p){
+  const w=S.wallboxes.find(x=>x.id===p.id)||S.wallboxes.find(x=>x.name.toLowerCase()===p.name.toLowerCase());
+  return w?{id:w.id,name:w.name}:p;
+}
+function evalImport(){
+  const map=imp.map;
+  const has=f=>map[f]>=0;
+  const get=(r,f)=>has(f)?String(r[map[f]]==null?'':r[map[f]]).trim():'';
+  const seen=new Set(S.sessions.map(s=>s.wbId+'|'+s.start));
+  const existing=new Map(S.sessions.map(s=>[s.wbId+'|'+s.start,s]));
+  const changed=new Set();
+  const list=[],checks=[];
+  let bk=0,bn=0,bm=null;
+  imp.rows.forEach((r,idx)=>{
+    const row=idx+1;
+    if(r.some(c=>/^(gesamt|summe|total)\b/i.test(String(c).trim()))){
+      const fk=has('kwh')?parseNum(get(r,'kwh')):null;
+      checks.push({label:bm?mLong(bm):'Block',fk:fk,ck:bk,n:bn});
+      bk=0;bn=0;bm=null;
+      list.push({status:'summe',row:row,msg:'Summenzeile der Datei. Das Tool rechnet selbst.'});return;
+    }
+    const rg=get(r,'start').split(/\s+[-\u2013]\s+/);
+    const start=parseDT(rg[0]);
+    let end=rg.length>1?parseDT(rg[1]):null;
+    if(!start){list.push({status:'fehler',row:row,msg:'Startzeit nicht lesbar'});return;}
+    const kwh=parseNum(get(r,'kwh'));
+    if(kwh==null||kwh<0){list.push({status:'fehler',row:row,msg:'kWh nicht lesbar'});return;}
+    if(end&&toMs(end)<toMs(start)){list.push({status:'fehler',row:row,msg:'Ende liegt vor dem Start'});return;}
+    const wbRaw=get(r,'wallbox');
+    const wb=resolveWb(parseWb(wbRaw));
+    let rfRaw=get(r,'rfid');
+    if(!rfRaw){const m0=wbRaw.match(/RFID:?\s*([0-9A-Za-z_-]+)/i);if(m0)rfRaw=m0[1];}
+    const rm=rfRaw.match(/RFID:?\s*([0-9A-Za-z_-]+)/i);
+    const rfid=((rm?rm[1]:rfRaw).trim().toUpperCase())||'OHNE KARTE';
+    const rule=priceFor({start:start,wbId:wb.id,manual:false});
+    const price=rule?rule.price:0;
+    const cost=rule?Math.round(kwh*rule.price*100)/100:0;
+    const s={wbId:wb.id,rfid:rfid,start:start,end:end,kwh:kwh,price:price,cost:cost};
+    bk+=kwh;bn++;if(!bm)bm=start.slice(0,7);
+    const key=wb.id+'|'+start;
+    if(seen.has(key)){
+      const ex=existing.get(key);
+      if(ex&&!changed.has(key)){
+        const ch=[];
+        if(ex.rfid!==rfid)ch.push('Karte '+ex.rfid+' \u2192 '+rfid);
+        if(Math.abs(ex.kwh-kwh)>0.004)ch.push('kWh '+n2.format(ex.kwh)+' \u2192 '+n2.format(kwh));
+        if(end&&ex.end&&ex.end!==end)ch.push('Ende '+fT(ex.end)+' \u2192 '+fT(end));
+        if(ch.length){changed.add(key);list.push({status:'geaendert',row:row,s:s,ex:ex,msg:'Geändert im Quellsheet: '+ch.join(', ')});return;}
+      }
+      list.push({status:'duplikat',row:row,s:s,msg:'Gibt es schon (gleiche Wallbox und Startzeit)'});return;
+    }
+    seen.add(key);
+    const un=!isAssigned(rfid);
+    list.push({status:'neu',row:row,s:s,wbName:wb.name,
+      msg:un?'Karte '+rfid+' ohne Fahrzeug':vehName(vehOfCard(rfid))});
+  });
+  return {list:list,checks:checks};
+}
+function evalImportTesla(){
+  const si=imp.map.start,ki=imp.map.kwh,locIdx=imp.teslaLocIdx,priceIdx=imp.teslaPriceIdx;
+  const seen=new Set(S.sessions.map(s=>s.wbId+'|'+s.start));
+  const existing=new Map(S.sessions.map(s=>[s.wbId+'|'+s.start,s]));
+  const changed=new Set();
+  const list=[];
+  const vehId=S.vehicles[0]?S.vehicles[0].id:null;
+  imp.rows.forEach((r,idx)=>{
+    const row=idx+1;
+    const start=parseDT(String(r[si]==null?'':r[si]).trim());
+    if(!start){list.push({status:'fehler',row:row,msg:'Startzeit nicht lesbar'});return;}
+    const kwh=parseNum(String(r[ki]==null?'':r[ki]).trim());
+    if(kwh==null||kwh<0){list.push({status:'fehler',row:row,msg:'kWh nicht lesbar'});return;}
+    let price=priceIdx>=0?parseTeslaPrice(r[priceIdx]):null;
+    if(price==null||price<0)price=0;
+    const cost=Math.round(kwh*price*100)/100;
+    const loc=locIdx>=0?teslaLocClean(r[locIdx]):'';
+    const s={wbId:SC_WB_ID,rfid:'',start:start,end:null,kwh:kwh,price:price,cost:cost,loc:loc,vehicleId:vehId};
+    const key=s.wbId+'|'+s.start;
+    if(seen.has(key)){
+      const ex=existing.get(key);
+      if(ex&&!changed.has(key)){
+        const ch=[];
+        if(Math.abs(ex.kwh-kwh)>0.004)ch.push('kWh '+n2.format(ex.kwh)+' → '+n2.format(kwh));
+        if(Math.abs((ex.price||0)-price)>0.0005)ch.push('Preis '+n4.format(ex.price||0)+' → '+n4.format(price));
+        if(loc&&ex.loc!==loc)ch.push('Ort '+(ex.loc||'-')+' → '+loc);
+        if(ch.length){changed.add(key);list.push({status:'geaendert',row:row,s:s,ex:ex,msg:'Geändert gegenüber vorhandenem Vorgang: '+ch.join(', ')});return;}
+      }
+      list.push({status:'duplikat',row:row,s:s,msg:'Gibt es schon (gleiche Startzeit am Supercharger)'});return;
+    }
+    seen.add(key);
+    list.push({status:'neu',row:row,s:s,wbName:'Tesla Supercharger',
+      msg:(loc?loc+' · ':'')+'Supercharger'+(vehId?' · '+vehName(vehId):'')});
+  });
+  return {list:list,checks:[]};
+}
+function evalImportAny(){return imp.format==='tesla'?evalImportTesla():evalImport();}
+function importHTML(){
+  return '<section class="sec" style="border-top:0;margin-top:14px"><h2>1. Datei laden</h2>'
+    +'<p class="hint">CSV oder Sheet-Export. Übernommen werden nur Zeitraum, Wallbox, Authentifizierung und geladene kWh; Preis und Kosten aus der Datei bleiben unberücksichtigt, der Preis je kWh kommt aus den Preisregeln in der Verwaltung. Titelzeilen, wiederholte Kopfzeilen, Gesamt-Zeilen, Dezimalkomma und Datumsformat erkennt das Tool selbst. Vorgänge, die es schon gibt, überspringt es. Tesla-Supercharger-Exporte (Tesla-eigenes Format) werden automatisch erkannt: dort gilt der in der Datei hinterlegte Preis je kWh, da er je Ladevorgang unterschiedlich ist.</p>'
+    +'<div class="btnrow"><label class="btn ghost" tabindex="0">CSV-Datei wählen<input id="impFile" type="file" accept=".csv,.txt,text/csv,text/plain" hidden></label>'
+    +'<button class="btn ghost" data-act="sample">Beispiel-CSV einfügen</button></div>'
+    +'<textarea id="impText" spellcheck="false" aria-label="CSV-Inhalt" placeholder="…oder CSV-Inhalt hier einfügen">'+esc(imp.text)+'</textarea>'
+    +'<div class="btnrow"><button class="btn" data-act="parse">Einlesen</button></div></section>'
+    +'<div id="impResult"></div>';
+}
+function renderImpResult(){
+  const el=$('#impResult');if(!el)return;
+  if(imp.done){
+    const d=imp.done;
+    el.innerHTML='<div class="panel ok"><p>'+(d.n?'<b>'+d.n+' '+(d.n===1?'Vorgang':'Vorgänge')+'</b> gespeichert.':'')+(d.u?' <b>'+d.u+' '+(d.u===1?'Vorgang':'Vorgänge')+'</b> aktualisiert.':'')+(d.cards.length?' '+(d.cards.length===1?'Neue Karte':'Neue Karten')+' ohne Fahrzeug: '+d.cards.map(esc).join(', ')+'.':'')+'</p>'
+      +'<div class="btnrow"><button class="btn" data-act="goto-overview">Zur Übersicht</button>'+(d.cards.length?'<button class="btn ghost" data-act="goto-admin">Karten zuordnen</button>':'')+'</div></div>';
+    return;
+  }
+  if(imp.err){el.innerHTML='<div class="panel bad"><p>'+esc(imp.err)+'</p></div>';return;}
+  if(!imp.rows){el.innerHTML='';return;}
+  let h='';
+  if(imp.format==='tesla'){
+    h+='<section class="sec"><h2>2. Format erkannt</h2><p class="hint">Tesla-Supercharger-Export erkannt (Tesla-eigenes Format, keine Wallbox-Datei). Zeitraum, Standort und kWh werden automatisch gelesen. Der Preis je kWh wird aus der Datei übernommen statt aus den Preisregeln, weil er je Ladevorgang unterschiedlich ist. Die Vorgänge laufen unter der Wallbox „Tesla Supercharger", der Standort wird je Vorgang in der Übersicht angezeigt.</p></section>';
+    if(!(imp.map.start>=0)||!(imp.map.kwh>=0)){
+      el.innerHTML=h+'<div class="panel bad"><p>Tesla-Format erkannt, aber Start- oder kWh-Spalte fehlt in der Datei.</p></div>';return;
+    }
+  }else{
+    h+='<section class="sec"><h2>2. Spalten zuordnen</h2><p class="hint">Das Tool merkt sich die Zuordnung für Dateien mit gleicher Kopfzeile. Steht der Zeitraum als „Start - Ende" in einer Zelle, reicht die Startspalte.</p><div class="mapgrid">'
+      +FIELDS.map(f=>'<label class="f">'+f[1]+'<select data-map="'+f[0]+'"><option value="-1">keine</option>'+imp.headers.map((x,i)=>'<option value="'+i+'"'+(imp.map[f[0]]===i?' selected':'')+'>'+esc(x||('Spalte '+(i+1)))+'</option>').join('')+'</select></label>').join('')
+      +'</div></section>';
+    const missing=[];
+    if(!(imp.map.start>=0))missing.push('Zeitraum');
+    if(!(imp.map.kwh>=0))missing.push('kWh');
+    if(missing.length){
+      el.innerHTML=h+'<div class="panel bad"><p>Ordne noch diese Spalten zu: <b>'+missing.join(', ')+'</b>.</p></div>';return;
+    }
+  }
+  const r=evalImportAny(),c={neu:0,geaendert:0,pruefen:0,duplikat:0,fehler:0,summe:0};
+  r.list.forEach(x=>c[x.status]++);
+  const add=c.neu+c.pruefen,upd=c.geaendert;
+  const lab={neu:'Neu',geaendert:'Geändert',pruefen:'Prüfen',duplikat:'Duplikat',fehler:'Fehler',summe:'Summe'};
+  h+='<section class="sec"><h2>3. Vorschau prüfen</h2><div class="tally">'
+    +Object.keys(c).filter(k=>c[k]>0).map(k=>'<span class="pill '+k+'">'+lab[k]+' '+c[k]+'</span>').join('')+'</div>';
+  if(imp.skipped)h+='<p class="note">'+imp.skipped+' '+(imp.skipped===1?'Titel- oder Kopfzeile':'Titel- und Kopfzeilen')+' übersprungen.</p>';
+  if(r.checks.length){
+    const bad=r.checks.filter(k=>k.fk!=null&&Math.abs(k.fk-k.ck)>0.05);
+    if(bad.length){
+      h+='<div class="notice">'+TRI+'<div><p><b>'+(bad.length===1?'Eine Summenzeile passt':bad.length+' Summenzeilen passen')+' nicht zu den Zeilen.</b></p>'
+        +bad.map(k=>'<p>'+esc(k.label)+': Datei '+n2.format(k.fk)+' kWh, berechnet '+n2.format(k.ck)+' kWh.</p>').join('')
+        +'<p>Das Tool nutzt die berechneten kWh.</p></div></div>';
+    }
+    const okn=r.checks.length-bad.length;
+    if(okn>0)h+='<p class="note">'+okn+' '+(okn===1?'Summenzeile stimmt':'Summenzeilen stimmen')+' mit den Zeilen überein.</p>';
+  }
+  h+=r.list.slice(0,80).map(x=>'<div class="prow"><span class="pill '+x.status+'">'+lab[x.status]+'</span><div><div class="dt">'+(x.s?fD(x.s.start)+', '+fT(x.s.start):'Datenzeile '+x.row)+'</div><div class="meta">'+esc(x.msg)+'</div></div><div class="rr">'+(x.s?'<div class="k">'+n2.format(x.s.kwh)+'<small>kWh</small></div><div class="e">'+n2.format(x.s.cost)+' €</div>':'')+'</div></div>').join('');
+  h+='<div class="btnrow"><button class="btn" data-act="do-import"'+(add||upd?'':' disabled')+'>'+((add?add+' '+(add===1?'Vorgang':'Vorgänge')+' importieren':'')+(add&&upd?' und ':'')+(upd?upd+' aktualisieren':'')||'Nichts zu importieren')+'</button></div></section>';
+  el.innerHTML=h;
+}
+function doImport(){
+  if(!imp.rows)return;
+  const r=evalImportAny();
+  const add=r.list.filter(x=>x.status==='neu'||x.status==='pruefen');
+  const upd=r.list.filter(x=>x.status==='geaendert');
+  if(!add.length&&!upd.length)return;
+  const newCards=new Set();
+  upd.forEach(x=>{
+    const e=x.ex,n=x.s;
+    e.rfid=n.rfid;e.kwh=n.kwh;e.cost=n.cost;e.price=n.price;e.fileCost=n.cost;e.filePrice=n.price;if(n.end)e.end=n.end;
+    if(n.loc)e.loc=n.loc;
+    if(n.rfid&&!isAssigned(n.rfid))newCards.add(n.rfid);
+  });
+  add.forEach(x=>{
+    const s=x.s;s.id='s'+(++S.seq);s.fileCost=s.cost;s.filePrice=s.price;
+    S.sessions.push(s);
+    if(!S.wallboxes.some(w=>w.id===s.wbId))S.wallboxes.push({id:s.wbId,name:x.wbName});
+    if(s.rfid&&!isAssigned(s.rfid))newCards.add(s.rfid);
+  });
+  save();
+  imp=newImp();imp.done={n:add.length,u:upd.length,cards:[...newCards]};
+  render();
+  toast((add.length?add.length+' '+(add.length===1?'Vorgang':'Vorgänge')+' importiert':'')+(add.length&&upd.length?', ':'')+(upd.length?upd.length+' aktualisiert':''));
+}
+
+/* ---------- Verwaltung ---------- */
+function vehOptions(sel){
+  return '<option value="">nicht zugeordnet</option>'+S.vehicles.map(v=>'<option value="'+esc(v.id)+'"'+(sel===v.id?' selected':'')+'>'+esc(v.name)+'</option>').join('');
+}
+function confirmHTML(kind,id,title,ss,others){
+  const noun=kind==='card'?'Karte':'Wallbox';
+  return '<div class="confirm"><p><b>'+esc(title)+' löschen?</b> Daran hängen '+(ss.length===1?'1 Vorgang':ss.length+' Vorgänge')+' ('+n2.format(sum(ss,'kwh'))+' kWh, '+n2.format(sum(ss,'cost'))+' €).</p>'
+   +(others.length?'<label class="f">Vorgänge verschieben zu<select id="moveTo"><option value="">'+noun+' wählen</option>'+others.map(o=>'<option value="'+esc(o.v)+'">'+esc(o.l)+'</option>').join('')+'</select></label><div class="btnrow"><button class="btn" data-act="'+kind+'-move" data-id="'+esc(id)+'">Verschieben und '+noun+' löschen</button></div>':'')
+   +'<div class="btnrow"><button class="btn danger" data-act="'+kind+'-purge" data-id="'+esc(id)+'">'+noun+' und Vorgänge löschen</button><button class="btn ghost" data-act="cancel-del">Abbrechen</button></div>'
+   +'<p class="hint">Ein erneuter Import derselben Datei legt gelöschte Vorgänge wieder an.</p></div>';
+}
+function adminHTML(){
+  const allR=uniq(S.cards.map(c=>c.rfid).concat(S.sessions.map(s=>s.rfid))).filter(Boolean);
+  const rfids=allR.slice().sort((a,b)=>((isAssigned(a)?1:0)-(isAssigned(b)?1:0))||a.localeCompare(b));
+  let h='<section class="sec" style="border-top:0;margin-top:14px"><h2>Fahrzeuge</h2>';
+  h+=S.vehicles.map((v,i)=>'<div class="arow"><i class="dot" style="background:var(--v'+(i%6)+');width:14px;height:14px"></i><input type="text" data-veh-name="'+esc(v.id)+'" value="'+esc(v.name)+'" aria-label="Fahrzeugname"><button class="icon" data-act="del-veh" data-id="'+esc(v.id)+'" aria-label="Fahrzeug '+esc(v.name)+' löschen">\u00d7</button></div>').join('');
+  if(!S.vehicles.length)h+='<p class="empty">Noch kein Fahrzeug angelegt.</p>';
+  h+='<div class="arow"><input type="text" id="newVeh" placeholder="Neues Fahrzeug, zum Beispiel Zweitwagen" aria-label="Neues Fahrzeug"><button class="btn" data-act="add-veh">Anlegen</button></div></section>';
+  h+='<section class="sec"><h2>Karten und Fahrzeuge zuordnen</h2><p class="note">Jeder Vorgang gehört über seine RFID-Karte zu einem Fahrzeug. Karten ohne Fahrzeug stehen oben.</p>';
+  h+=rfids.map(r=>{
+    const c=cardOf(r),ss=S.sessions.filter(s=>s.rfid===r),n=ss.length;
+    return '<div class="crow'+(isAssigned(r)?'':' un')+'"><div class="chead"><b>'+esc(r)+'</b><span class="meta cnt">'+n+' '+(n===1?'Vorgang':'Vorgänge')+'</span><button class="icon sm" data-act="del-card" data-id="'+esc(r)+'" aria-label="Karte '+esc(r)+' löschen">\u00d7</button></div>'
+      +'<div class="cfields"><input type="text" data-card-name="'+esc(r)+'" value="'+esc(c?c.name:'')+'" placeholder="Bezeichnung (optional)" aria-label="Bezeichnung für Karte '+esc(r)+'">'
+      +'<select data-card-veh="'+esc(r)+'" aria-label="Fahrzeug für Karte '+esc(r)+'">'+vehOptions(c&&c.vehicleId)+'</select></div>'
+      +(U.delCard===r?confirmHTML('card',r,'Karte '+r,ss,allR.filter(x=>x!==r).sort().map(x=>({v:x,l:cardLabel(x)}))):'')+'</div>';
+  }).join('');
+  h+='<h3 style="margin:22px 0 4px;font-size:22px">Neue Karte anlegen</h3><div class="cfields" style="margin-top:8px"><input type="text" id="newRfid" placeholder="RFID, zum Beispiel B06522E1" aria-label="RFID der neuen Karte"><input type="text" id="newCardName" placeholder="Bezeichnung (optional)" aria-label="Bezeichnung der neuen Karte"><select id="newCardVeh" aria-label="Fahrzeug der neuen Karte">'+vehOptions(null)+'</select></div><div class="btnrow"><button class="btn" data-act="add-card">Karte anlegen</button></div></section>';
+  h+='<section class="sec"><h2>Wallboxen</h2>';
+  h+=S.wallboxes.length?S.wallboxes.map(w=>{
+    const ss=S.sessions.filter(s=>s.wbId===w.id),n=ss.length;
+    return '<div class="crow"><div class="chead"><span class="id">ID '+esc(w.id)+'</span><span class="meta cnt">'+n+' '+(n===1?'Vorgang':'Vorgänge')+'</span><button class="icon sm" data-act="del-wb" data-id="'+esc(w.id)+'" aria-label="Wallbox '+esc(w.name)+' löschen">\u00d7</button></div>'
+      +'<input type="text" data-wb-name="'+esc(w.id)+'" value="'+esc(w.name)+'" aria-label="Name der Wallbox">'
+      +(U.delWb===w.id?confirmHTML('wb',w.id,'Wallbox '+w.name,ss,S.wallboxes.filter(x=>x.id!==w.id).map(x=>({v:x.id,l:x.name}))):'')+'</div>';
+  }).join(''):'<p class="empty">Noch keine Wallbox. Lege eine an oder importiere eine Datei.</p>';
+  h+='<h3 style="margin:22px 0 4px;font-size:22px">Neue Wallbox anlegen</h3><div class="cfields" style="margin-top:8px"><input type="text" id="newWbName" placeholder="Name, zum Beispiel Büro" aria-label="Name der neuen Wallbox"><input type="text" id="newWbId" placeholder="ID aus der CSV (optional)" aria-label="ID der neuen Wallbox"></div><p class="hint">Der Import ordnet Vorgänge über die ID zu, ohne ID über den Namen. Unbekannte Wallboxen legt er selbst an.</p><div class="btnrow"><button class="btn" data-act="add-wb">Wallbox anlegen</button></div></section>';
+  h+=tariffHTML();
+  h+='<section class="sec"><h2>Daten</h2><p class="hint">Der Export speichert Fahrzeuge, Karten, Wallboxen, alle Vorgänge, Preisregeln und die Berichtsvorlage als JSON-Datei, zur Sicherung oder zum Umzug in eine andere Version.</p><div class="btnrow"><button class="btn ghost" data-act="export-data">Alle Daten exportieren</button></div>'
+    +'<p class="hint" style="margin-top:18px">Eine zuvor exportierte Sicherung laden, zum Beispiel nach einem Umzug auf eine andere Adresse. Ersetzt alle aktuellen Daten in diesem Browser.</p>'
+    +(U.restorePending?restoreConfirmHTML(U.restorePending):'<div class="btnrow"><label class="btn ghost" tabindex="0">Sicherung wiederherstellen<input id="restoreFile" type="file" accept=".json,application/json" hidden></label></div>')
+    +'<p class="hint" style="margin-top:18px">Setzt alles auf die 29 Vorgänge aus Sheet und Wallbox-Export (Stand 30.09.2026) zurück. Importierte Vorgänge, Fahrzeuge, Karten und Wallboxen gehen dabei verloren.</p><div class="btnrow"><button class="btn danger" data-act="reset">'+(U.confirmReset?'Wirklich zurücksetzen? Nochmal tippen':'Auf Sheet-Stand zurücksetzen')+'</button></div></section>';
+  return h;
+}
+function wbOptions(sel){
+  return '<option value="all"'+(sel==='all'?' selected':'')+'>Alle Wallboxen</option>'+S.wallboxes.map(w=>'<option value="'+esc(w.id)+'"'+(sel===w.id?' selected':'')+'>'+esc(w.name)+'</option>').join('');
+}
+function tariffHTML(){
+  const rules=S.tariff.rules.slice().sort((a,b)=>a.from.localeCompare(b.from)||a.id.localeCompare(b.id));
+  const BS=S.sessions.filter(x=>!x.manual);
+  const fk=sum(BS,'kwh'),fc=sum(BS,'fileCost'),nc=sum(BS,'cost');
+  const aff=BS.filter(x=>priceFor(x)).length;
+  const dff=nc-fc;
+  let h='<section class="sec"><h2>Preis je kWh</h2><p class="note">Eine Regel rechnet alle Vorgänge ab ihrem Startdatum neu: kWh mal Preis, auf den Cent gerundet. Es gilt die jüngste Regel vor dem Vorgang. Bei gleichem Datum schlägt eine Wallbox-Regel die Regel für alle. Ohne passende Regel bleibt der zuletzt bekannte Preis erhalten (Ø '+n3.format(fk>0?fc/fk:0)+' € je kWh); neu importierte Vorgänge ohne passende Regel zeigen 0 €, bis eine Regel den Zeitraum abdeckt.</p>';
+  h+=rules.map(r=>'<div class="crow"><div class="cfields rule">'
+    +'<label class="f">Gültig ab<input type="date" data-rule="from" data-rid="'+esc(r.id)+'" value="'+esc(r.from)+'"></label>'
+    +'<label class="f">Wallbox<select data-rule="wb" data-rid="'+esc(r.id)+'">'+wbOptions(r.wbId)+'</select></label>'
+    +'<label class="f">Preis je kWh in €<input type="text" inputmode="decimal" data-rule="price" data-rid="'+esc(r.id)+'" value="'+n4.format(r.price)+'"></label>'
+    +'<div class="ruleact"><button class="icon" data-act="del-rule" data-id="'+esc(r.id)+'" aria-label="Preisregel ab '+esc(r.from)+' löschen">\u00d7</button></div></div></div>').join('');
+  if(!rules.length)h+='<p class="empty">Keine Regel. Alle Kosten stammen aus der Datei.</p>';
+  h+='<h3 style="margin:22px 0 4px;font-size:22px">Neue Preisregel</h3><div class="cfields rule" style="margin-top:8px">'
+    +'<label class="f">Gültig ab<input type="date" id="newRuleFrom" value="'+isoDate(new Date()).slice(0,8)+'01"></label>'
+    +'<label class="f">Wallbox<select id="newRuleWb">'+wbOptions('all')+'</select></label>'
+    +'<label class="f">Preis je kWh in €<input type="text" inputmode="decimal" id="newRulePrice" placeholder="zum Beispiel 0,34"></label>'
+    +'<div class="ruleact"><button class="btn" data-act="add-rule">Regel anlegen</button></div></div>';
+  h+='<div class="panel"><p><b>Wirkung:</b> '+(rules.length?aff+' von '+BS.length+' Vorgängen mit Regelpreis.':'Keine Regel, alle Kosten wie in der Datei.')+(S.sessions.length>BS.length?' '+(S.sessions.length-BS.length)+' manuell erfasste behalten ihren eigenen Preis.':'')+'</p><p>Kosten '+(S.sessions.length>BS.length?'der Dateivorgänge':'gesamt')+' '+n2.format(nc)+' € (Datei '+n2.format(fc)+' €, Differenz '+(dff>=0?'+':'\u2212')+n2.format(Math.abs(dff))+' €).</p></div></section>';
+  return h;
+}
+function setCard(rfid,patch){
+  let c=cardOf(rfid);
+  if(!c){c={rfid:rfid,name:'',vehicleId:null};S.cards.push(c);}
+  Object.assign(c,patch);
+}
+function normRfid(s){const m=String(s||'').match(/RFID:?\s*([0-9A-Za-z_-]+)/i);return ((m?m[1]:String(s||'')).trim().toUpperCase());}
+
+/* ---------- Bericht (A4) ---------- */
+const nl2=t=>esc(t||'').replace(/\n/g,'<br>');
+const fDay=d=>d.slice(8,10)+'.'+d.slice(5,7)+'.'+d.slice(0,4);
+const dimName=d=>({veh:'Fahrzeug',wb:'Wallbox',card:'Ladekarte'}[d]||'');
+const ppk=a=>a.kwh>0?a.cost/a.kwh:0;
+function lastDay(y,m){return new Date(Date.UTC(y,m,0)).getUTCDate();}
+function bucketOf(s,time){
+  const y=s.start.slice(0,4),m=+s.start.slice(5,7);
+  if(time==='monat')return s.start.slice(0,7);
+  if(time==='quartal')return y+'-Q'+Math.ceil(m/3);
+  if(time==='jahr')return y;
+  return 'all';
+}
+function bucketLabel(k){
+  if(k==='all')return 'Gesamter Zeitraum';
+  if(/^\d{4}-\d{2}$/.test(k))return mLong(k);
+  if(/-Q\d$/.test(k))return k.slice(5)+' '+k.slice(0,4);
+  return k;
+}
+function periodLabel(kind,o){
+  if(kind==='monat')return mLong(o);
+  if(kind==='quartal'){const m1=(+o.slice(6,7)-1)*3;return bucketLabel(o)+' ('+MSH[m1]+' bis '+MSH[m1+2]+')';}
+  return o;
+}
+function periodRange(kind,p){
+  if(!p)return {from:'0000-01-01',to:'9999-12-31'};
+  if(kind==='monat'){return {from:p+'-01',to:p+'-'+pad2(lastDay(+p.slice(0,4),+p.slice(5,7)))};}
+  if(kind==='quartal'){const y=+p.slice(0,4),m1=(+p.slice(6,7)-1)*3+1,m3=m1+2;return {from:y+'-'+pad2(m1)+'-01',to:y+'-'+pad2(m3)+'-'+pad2(lastDay(y,m3))};}
+  return {from:p+'-01-01',to:p+'-12-31'};
+}
+const repOptions=kind=>uniq(S.sessions.map(x=>bucketOf(x,kind))).sort().reverse();
+function repSetKind(k){
+  const R=U.rep;R.kind=k;
+  R.time=k==='monat'?'none':'monat';
+  if(k==='frei'){const ds=S.sessions.map(x=>x.start.slice(0,10)).sort();R.from=R.from||ds[0]||'';R.to=R.to||ds[ds.length-1]||'';}
+  else R.period=repOptions(k)[0]||'';
+}
+function repInit(){
+  if(!U.rep){U.rep={kind:'monat',period:'',from:'',to:'',time:'none',dim:'none',fVeh:'all',fWb:'all',fCard:'all'};repSetKind('monat');}
+  const R=U.rep;
+  if(R.kind!=='frei'&&!repOptions(R.kind).includes(R.period))R.period=repOptions(R.kind)[0]||'';
+  if(R.fVeh!=='all'&&R.fVeh!=='none'&&!S.vehicles.some(v=>v.id===R.fVeh))R.fVeh='all';
+  if(R.fWb!=='all'&&!S.wallboxes.some(w=>w.id===R.fWb))R.fWb='all';
+  if(R.fCard!=='all'&&!S.sessions.some(x=>x.rfid===R.fCard))R.fCard='all';
+}
+const repRange=()=>U.rep.kind==='frei'?{from:U.rep.from||'0000-01-01',to:U.rep.to||'9999-12-31'}:periodRange(U.rep.kind,U.rep.period);
+function rangeText(rg){
+  const a=rg.from==='0000-01-01',b=rg.to==='9999-12-31';
+  if(a&&b)return 'gesamter Datenbestand';
+  if(a)return 'bis '+fDay(rg.to);
+  if(b)return 'ab '+fDay(rg.from);
+  return fDay(rg.from)+' bis '+fDay(rg.to);
+}
+function grpKey(x,dim){if(dim==='veh')return vehOf(x)||'none';if(dim==='wb')return x.wbId;if(dim==='card')return x.rfid;return 'all';}
+function grpLabel(k,dim){
+  if(dim==='veh')return k==='none'?'Nicht zugeordnet':vehName(k);
+  if(dim==='wb')return wbName(k);
+  if(dim==='card')return k?cardLabel(k):'Ohne Karte';
+  return 'Alle Vorgänge';
+}
+function repData(){
+  const R=U.rep,rg=repRange();
+  const list=S.sessions.filter(x=>{
+    const d=x.start.slice(0,10);
+    if(d<rg.from||d>rg.to)return false;
+    const v=vehOf(x);
+    if(R.fVeh==='none'){if(v!==null)return false;}else if(R.fVeh!=='all'&&v!==R.fVeh)return false;
+    if(R.fWb!=='all'&&x.wbId!==R.fWb)return false;
+    if(R.fCard!=='all'&&x.rfid!==R.fCard)return false;
+    return true;
+  }).sort((a,b)=>a.start.localeCompare(b.start));
+  const agg=l=>({n:l.length,kwh:sum(l,'kwh'),cost:sum(l,'cost')});
+  const order=k=>{
+    if(R.dim==='veh'){const i=S.vehicles.findIndex(v=>v.id===k);return i<0?999:i;}
+    if(R.dim==='wb'){const i=S.wallboxes.findIndex(w=>w.id===k);return i<0?999:i;}
+    return 0;
+  };
+  const keys=uniq(list.map(x=>grpKey(x,R.dim))).sort((a,b)=>order(a)-order(b)||String(a).localeCompare(String(b)));
+  const groups=keys.map(k=>{
+    const gl=list.filter(x=>grpKey(x,R.dim)===k);
+    const bk=uniq(gl.map(x=>bucketOf(x,R.time))).sort();
+    return {key:k,label:grpLabel(k,R.dim),total:agg(gl),
+      rows:bk.map(b=>Object.assign({key:b,label:bucketLabel(b)},agg(gl.filter(x=>bucketOf(x,R.time)===b)))) };
+  });
+  return {list:list,range:rg,groups:groups,total:agg(list)};
+}
+function repTables(D){
+  const R=U.rep,tm=R.time,dm=R.dim,out=[];
+  if(!D.list.length)return out;
+  const row=(label,a)=>[label,String(a.n),n2.format(a.kwh),n3.format(ppk(a)),n2.format(a.cost)+' €'];
+  const H=first=>[first,'Vorgänge','kWh','Ø €/kWh','Kosten'];
+  const al=['l','r','r','r','r'];
+  if(dm==='none'){
+    const g=D.groups[0];
+    out.push({title:'',head:H('Zeitraum'),rows:g.rows.map(r=>row(r.label,r)),foot:g.rows.length>1?row('Gesamt',D.total):null,al:al});
+  }else if(tm==='none'){
+    out.push({title:'',head:H(dimName(dm)),rows:D.groups.map(g=>row(g.label,g.total)),foot:D.groups.length>1?row('Gesamt',D.total):null,al:al});
+  }else{
+    D.groups.forEach(g=>out.push({title:dimName(dm)+': '+g.label,head:H('Zeitraum'),rows:g.rows.map(r=>row(r.label,r)),foot:g.rows.length>1?row('Summe',g.total):null,al:al}));
+    if(D.groups.length>1)out.push({title:'Gesamt aller Gruppen',head:H('Zeitraum'),rows:[row('Gesamter Zeitraum',D.total)],foot:null,al:al});
+  }
+  return out;
+}
+function repSessionTable(D){
+  const rows=D.list.map(x=>{const v=vehOf(x);return [fDay(x.start.slice(0,10))+' '+fT(x.start),v?vehName(v):'nicht zugeordnet',x.rfid||'ohne Karte',wbName(x.wbId),n2.format(x.kwh),n3.format(x.price),n2.format(x.cost)+' €'];});
+  return {title:'Einzelvorgänge',head:['Start','Fahrzeug','Karte','Wallbox','kWh','€/kWh','Kosten'],rows:rows,
+    foot:['Summe','','','',n2.format(D.total.kwh),'',n2.format(D.total.cost)+' €'],al:['l','l','l','l','r','r','r']};
+}
+function priceNotes(D){
+  const used=new Set(),lines=[];
+  D.list.forEach(x=>{const r=priceFor(x);if(r)used.add(r.id);});
+  S.tariff.rules.slice().sort((a,b)=>a.from.localeCompare(b.from)).forEach(r=>{
+    if(used.has(r.id))lines.push('Preis je kWh '+n4.format(r.price)+' € ab '+fDay(r.from)+(r.wbId==='all'?'':' ('+wbName(r.wbId)+')'));
+  });
+  const fl=D.list.filter(x=>!x.manual&&!priceFor(x));
+  if(fl.length){const k=sum(fl,'kwh'),c=sum(fl,'cost');lines.push('Kosten laut Ladeprotokoll'+(k>0?' (Ø '+n3.format(c/k)+' € je kWh)':''));}
+  const ml=D.list.filter(x=>x.manual);
+  if(ml.length){const k=sum(ml,'kwh'),c=sum(ml,'cost');lines.push('Manuell erfasst: '+ml.length+' '+(ml.length===1?'Vorgang':'Vorgänge')+' mit eigenem Preis je kWh (Ø '+n3.format(k>0?c/k:0)+' €)');}
+  return lines;
+}
+function rpTable(t){
+  const cell=(c,i,tag)=>'<'+tag+(t.al[i]==='r'?' class="r"':'')+'>'+esc(c)+'</'+tag+'>';
+  return (t.title?'<h3 class="rp-h">'+esc(t.title)+'</h3>':'')
+    +'<table class="rp-t"><thead><tr>'+t.head.map((c,i)=>cell(c,i,'th')).join('')+'</tr></thead><tbody>'
+    +t.rows.map(r=>'<tr>'+r.map((c,i)=>cell(c,i,'td')).join('')+'</tr>').join('')+'</tbody>'
+    +(t.foot?'<tfoot><tr>'+t.foot.map((c,i)=>cell(c,i,'td')).join('')+'</tr></tfoot>':'')+'</table>';
+}
+function sheetInnerHTML(){
+  const T=S.report,B=T.blocks,D=repData(),t=D.total;
+  let h='<div class="rp-top"><div><h1>'+esc(T.title||'Ladekostenabrechnung')+'</h1><p class="rp-per">Zeitraum: '+esc(rangeText(D.range))+'</p></div><p class="rp-date">Erstellt am '+fDay(isoDate(new Date()))+'</p></div>';
+  if((T.sender||'').trim()||(T.recipient||'').trim())h+='<div class="rp-addr"><div>'+nl2(T.sender)+'</div><div>'+nl2(T.recipient)+'</div></div>';
+  if((T.intro||'').trim())h+='<p class="rp-intro">'+nl2(T.intro)+'</p>';
+  if(!D.list.length)h+='<p class="rp-empty">Keine Vorgänge im gewählten Zeitraum.</p>';
+  else{
+    if(B.kpi)h+='<div class="rp-kpi"><div><small>Kosten</small><b>'+n2.format(t.cost)+' €</b></div><div><small>Energie</small><b>'+n2.format(t.kwh)+' kWh</b></div><div><small>Ø Preis</small><b>'+n3.format(ppk(t))+' €/kWh</b></div><div><small>Ladevorgänge</small><b>'+t.n+'</b></div></div>';
+    if(B.breakdown)h+=repTables(D).map(rpTable).join('');
+    if(B.price){const nt=priceNotes(D);if(nt.length)h+='<h3 class="rp-h">Preis je kWh</h3><p class="rp-note">'+nt.map(esc).join('<br>')+'</p>';}
+    if(B.sessions)h+=rpTable(repSessionTable(D));
+    if(B.sign)h+='<div class="rp-sign"><div>Ort, Datum</div><div>Unterschrift</div></div>';
+  }
+  if((T.footer||'').trim())h+='<p class="rp-foot">'+nl2(T.footer)+'</p>';
+  return h;
+}
+function reportHTML(){
+  repInit();
+  const R=U.rep,T=S.report,B=T.blocks,D=repData();
+  const opt=(v,l,sel)=>'<option value="'+esc(v)+'"'+(sel?' selected':'')+'>'+esc(l)+'</option>';
+  const kinds=[['monat','Monat'],['quartal','Quartal'],['jahr','Jahr'],['frei','Frei']];
+  let h='<div class="no-print"><section class="sec" style="border-top:0;margin-top:14px"><h2>Zeitraum</h2>'
+    +'<div class="ctl" role="group" aria-label="Berichtsart" style="margin-bottom:12px">'+kinds.map(k=>'<button data-act="rep-kind" data-v="'+k[0]+'" aria-pressed="'+(R.kind===k[0])+'">'+k[1]+'</button>').join('')+'</div>';
+  if(R.kind==='frei')h+='<div class="filters" style="margin-top:0"><label class="f">Von<input type="date" data-rep="from" value="'+esc(R.from)+'"></label><label class="f">Bis<input type="date" data-rep="to" value="'+esc(R.to)+'"></label></div>';
+  else h+='<label class="f">'+(R.kind==='monat'?'Monat':R.kind==='quartal'?'Quartal':'Jahr')+'<select data-rep="period">'+repOptions(R.kind).map(o=>opt(o,periodLabel(R.kind,o),o===R.period)).join('')+'</select></label>';
+  h+='<p class="note" style="margin-top:8px">'+esc(rangeText(D.range))+', '+D.list.length+' '+(D.list.length===1?'Vorgang':'Vorgänge')+'</p></section>';
+  h+='<section class="sec"><h2>Auswertung</h2><div class="filters four" style="margin-top:0">'
+    +'<label class="f">Gliederung<select data-rep="time">'+[['none','Gesamter Zeitraum'],['monat','Nach Monat'],['quartal','Nach Quartal'],['jahr','Nach Jahr']].map(o=>opt(o[0],o[1],R.time===o[0])).join('')+'</select></label>'
+    +'<label class="f">Aufteilung<select data-rep="dim">'+[['none','Keine'],['veh','Je Fahrzeug'],['wb','Je Wallbox'],['card','Je Ladekarte']].map(o=>opt(o[0],o[1],R.dim===o[0])).join('')+'</select></label>'
+    +'<label class="f">Fahrzeug<select data-rep="fVeh">'+opt('all','Alle Fahrzeuge',R.fVeh==='all')+S.vehicles.map(v=>opt(v.id,v.name,R.fVeh===v.id)).join('')+opt('none','Nicht zugeordnet',R.fVeh==='none')+'</select></label>'
+    +'<label class="f">Wallbox<select data-rep="fWb">'+opt('all','Alle Wallboxen',R.fWb==='all')+S.wallboxes.map(w=>opt(w.id,w.name,R.fWb===w.id)).join('')+'</select></label>'
+    +'<label class="f span">Ladekarte<select data-rep="fCard">'+opt('all','Alle Karten',R.fCard==='all')+uniq(S.sessions.map(x=>x.rfid)).filter(Boolean).sort().map(r=>opt(r,cardLabel(r),R.fCard===r)).join('')+'</select></label></div></section>';
+  h+='<section class="sec"><h2>Vorlage</h2>'
+    +'<label class="f">Titel<input type="text" data-tpl="title" value="'+esc(T.title)+'"></label>'
+    +'<div class="cfields" style="margin-top:10px"><label class="f">Absender<textarea class="sm" data-tpl="sender" rows="3">'+esc(T.sender)+'</textarea></label><label class="f">Empfänger<textarea class="sm" data-tpl="recipient" rows="3">'+esc(T.recipient)+'</textarea></label></div>'
+    +'<label class="f" style="margin-top:10px">Einleitung<textarea class="sm" data-tpl="intro" rows="3">'+esc(T.intro)+'</textarea></label>'
+    +'<label class="f" style="margin-top:10px">Fußtext<textarea class="sm" data-tpl="footer" rows="3">'+esc(T.footer)+'</textarea></label>'
+    +'<p class="hint" style="margin-top:12px">Bausteine im Ausdruck</p>'
+    +[['kpi','Kennzahlen'],['breakdown','Aufteilung'],['price','Preishinweis'],['sessions','Einzelvorgänge'],['sign','Unterschriftszeile']].map(b=>'<label class="chk"><input type="checkbox" data-block="'+b[0]+'"'+(B[b[0]]?' checked':'')+'>'+b[1]+'</label>').join('')+'</section>';
+  h+='<div class="btnrow"><button class="btn" data-act="rep-print">Drucken</button><button class="btn ghost" data-act="rep-pdf">PDF speichern</button></div><p class="hint">Öffnet sich kein Druckdialog, speichere das PDF und drucke es von dort.</p></div>';
+  h+='<div class="sheet-wrap"><div class="sheet" id="sheet">'+sheetInnerHTML()+'</div></div>';
+  return h;
+}
+function fitSheet(){
+  const wrap=$('.sheet-wrap'),sh=$('#sheet');
+  if(!wrap||!sh)return;
+  const aw=wrap.clientWidth,w=sh.offsetWidth;
+  if(!(aw>0&&w>0))return;
+  const sc=Math.min(1,aw/w);
+  sh.style.transform='scale('+sc+')';
+  wrap.style.height=Math.ceil(sh.offsetHeight*sc)+'px';
+}
+function refreshSheet(){const sh=$('#sheet');if(sh){sh.innerHTML=sheetInnerHTML();fitSheet();}}
+window.addEventListener('resize',fitSheet);
+
+function buildPDF(D){
+  const T=S.report,B=T.blocks,jsPDF=window.jspdf.jsPDF;
+  const doc=new jsPDF({unit:'mm',format:'a4',compress:true});
+  const L=16,RX=194,W=RX-L,BOT=278;
+  let y=18;
+  const need=h=>{if(y+h>BOT){doc.addPage();y=18;}};
+  const put=(t,x,yy,o)=>doc.text(String(t),x,yy,o);
+  const atb=t=>{
+    if(t.title){need(24);doc.setFont('helvetica','bold');doc.setFontSize(10.5);doc.setTextColor(20);put(t.title,L,y);y+=2;}
+    doc.autoTable({startY:y,margin:{left:L,right:210-RX,top:18,bottom:18},head:[t.head],body:t.rows,foot:t.foot?[t.foot]:undefined,theme:'plain',showFoot:'lastPage',
+      styles:{font:'helvetica',fontSize:8.6,cellPadding:{top:1.7,bottom:1.7,left:1.6,right:1.6},textColor:[25,25,25],lineWidth:0},
+      headStyles:{fontStyle:'bold',textColor:[70,70,70]},
+      footStyles:{fontStyle:'bold',fillColor:[243,243,243],textColor:[25,25,25]},
+      didParseCell:d=>{if(t.al[d.column.index]==='r')d.cell.styles.halign='right';},
+      didDrawCell:d=>{
+        const c=d.cell,x2=c.x+c.width,yb=c.y+c.height;
+        if(d.section==='head'){doc.setDrawColor(25);doc.setLineWidth(0.5);doc.line(c.x,yb,x2,yb);}
+        else if(d.section==='foot'){doc.setDrawColor(25);doc.setLineWidth(0.4);doc.line(c.x,c.y,x2,c.y);}
+        else{doc.setDrawColor(205);doc.setLineWidth(0.2);doc.line(c.x,yb,x2,yb);}
+      }});
+    y=doc.lastAutoTable.finalY+7;
+  };
+  doc.setFont('helvetica','bold');doc.setFontSize(19);doc.setTextColor(20);
+  put(T.title||'Ladekostenabrechnung',L,y);
+  doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(110);
+  put('Erstellt am '+fDay(isoDate(new Date())),RX,y,{align:'right'});
+  y+=7;
+  doc.setFontSize(10.5);doc.setTextColor(60);
+  put('Zeitraum: '+rangeText(D.range),L,y);
+  y+=3.5;
+  doc.setDrawColor(11,79,138);doc.setLineWidth(0.9);doc.line(L,y,RX,y);
+  y+=8;
+  if((T.sender||'').trim()||(T.recipient||'').trim()){
+    doc.setFont('helvetica','normal');doc.setFontSize(9.5);doc.setTextColor(30);
+    const a=doc.splitTextToSize(T.sender||' ',80),b=doc.splitTextToSize(T.recipient||' ',80);
+    a.forEach((l,i)=>put(l,L,y+i*4.4));
+    b.forEach((l,i)=>put(l,L+98,y+i*4.4));
+    y+=Math.max(a.length,b.length)*4.4+5;
+  }
+  if((T.intro||'').trim()){
+    doc.setFont('helvetica','normal');doc.setFontSize(9.5);doc.setTextColor(30);
+    doc.splitTextToSize(T.intro,W).forEach(l=>{need(5);put(l,L,y);y+=4.6;});
+    y+=3;
+  }
+  if(B.kpi){
+    const t=D.total,kp=[['Kosten',n2.format(t.cost)+' €'],['Energie',n2.format(t.kwh)+' kWh'],['Ø Preis',n3.format(ppk(t))+' €/kWh'],['Ladevorgänge',String(t.n)]];
+    need(24);
+    const bw=(W-9)/4;
+    kp.forEach((k,i)=>{
+      const x=L+i*(bw+3);
+      doc.setDrawColor(200);doc.setLineWidth(0.25);doc.rect(x,y,bw,16);
+      doc.setFont('helvetica','normal');doc.setFontSize(8);doc.setTextColor(100);put(k[0],x+3,y+5.2);
+      doc.setFont('helvetica','bold');doc.setFontSize(12.5);doc.setTextColor(20);put(k[1],x+3,y+12.2);
+    });
+    y+=23;
+  }
+  if(B.breakdown)repTables(D).forEach(atb);
+  if(B.price){
+    const nt=priceNotes(D);
+    if(nt.length){
+      need(12+nt.length*4.5);
+      doc.setFont('helvetica','bold');doc.setFontSize(10.5);doc.setTextColor(20);put('Preis je kWh',L,y);y+=5.2;
+      doc.setFont('helvetica','normal');doc.setFontSize(9.2);doc.setTextColor(40);
+      nt.forEach(l=>{put(l,L,y);y+=4.5;});
+      y+=5;
+    }
+  }
+  if(B.sessions)atb(repSessionTable(D));
+  if(B.sign){
+    need(32);y+=14;
+    doc.setDrawColor(20);doc.setLineWidth(0.25);doc.line(L,y,L+72,y);doc.line(L+98,y,RX,y);
+    doc.setFont('helvetica','normal');doc.setFontSize(8);doc.setTextColor(90);
+    put('Ort, Datum',L,y+4);put('Unterschrift',L+98,y+4);
+    y+=12;
+  }
+  if((T.footer||'').trim()){
+    doc.setFont('helvetica','normal');doc.setFontSize(9);doc.setTextColor(50);y+=3;
+    doc.splitTextToSize(T.footer,W).forEach(l=>{need(5);put(l,L,y);y+=4.4;});
+  }
+  const n=doc.internal.getNumberOfPages();
+  for(let i=1;i<=n;i++){
+    doc.setPage(i);doc.setFont('helvetica','normal');doc.setFontSize(8);doc.setTextColor(120);
+    put((T.title||'')+', '+rangeText(D.range),L,289);
+    put('Seite '+i+' von '+n,RX,289,{align:'right'});
+  }
+  return doc;
+}
+function pdfName(D){
+  const R=U.rep,base=R.kind==='frei'?fDay(D.range.from).replace(/\./g,'-')+'_bis_'+fDay(D.range.to).replace(/\./g,'-'):R.period;
+  return 'Ladekosten_'+String(base).replace(/[^0-9A-Za-z_-]+/g,'-')+'.pdf';
+}
+async function savePDF(){
+  if(!(window.jspdf&&window.jspdf.jsPDF)){toast('Die PDF-Erzeugung ist nicht geladen. Nutze Drucken.');return;}
+  const D=repData();
+  if(!D.list.length){toast('Keine Vorgänge im gewählten Zeitraum');return;}
+  let dl=null;
+  try{dl=window.claude&&window.claude.use?await window.claude.use('downloads'):null;}catch(e){dl=null;}
+  try{
+    const doc=buildPDF(D);
+    if(dl)await dl.save({filename:pdfName(D),data:doc.output('arraybuffer')});
+    else doc.save(pdfName(D));
+    toast('PDF gespeichert');
+  }catch(e){
+    toast(e&&e.code==='declined'?'Speichern abgebrochen':'Das PDF ließ sich nicht speichern');
+  }
+}
+function exportName(){return 'Ladekosten-Daten_'+isoDate(new Date())+'.json';}
+function exportPayload(){
+  return JSON.stringify({exportedAt:new Date().toISOString(),app:'Ladekosten-Dashboard',version:1,
+    vehicles:S.vehicles,cards:S.cards,wallboxes:S.wallboxes,tariff:S.tariff,report:S.report,sessions:S.sessions},null,2);
+}
+function restoreConfirmHTML(d){
+  const n=Array.isArray(d.sessions)?d.sessions.length:0;
+  const when=d.exportedAt?fD(String(d.exportedAt).slice(0,10)+'T00:00:00'):'unbekanntem Zeitpunkt';
+  return '<div class="confirm"><p><b>Sicherung wiederherstellen?</b> Enthält '+n+' '+(n===1?'Vorgang':'Vorgänge')+', erstellt am '+esc(when)+'. Ersetzt alle aktuellen Daten in diesem Browser, das lässt sich nicht rückgängig machen.</p>'
+    +'<div class="btnrow"><button class="btn danger sm" data-act="restore-confirm">Ersetzen</button><button class="btn ghost sm" data-act="restore-cancel">Abbrechen</button></div></div>';
+}
+function applyRestore(data){
+  S={seq:0,
+    vehicles:Array.isArray(data.vehicles)?data.vehicles:[],
+    cards:Array.isArray(data.cards)?data.cards:[],
+    wallboxes:Array.isArray(data.wallboxes)?data.wallboxes:[],
+    tariff:(data.tariff&&Array.isArray(data.tariff.rules))?data.tariff:{rules:[]},
+    report:Object.assign(defaultReport(),data.report||{}),
+    sessions:Array.isArray(data.sessions)?data.sessions:[]};
+  S.report.blocks=Object.assign(defaultReport().blocks,S.report.blocks||{});
+  S.sessions.forEach(s=>{if(s.fileCost==null){s.fileCost=s.cost;s.filePrice=s.price;}});
+  let maxSeq=0;
+  [].concat(S.vehicles.map(v=>v.id),S.wallboxes.map(w=>w.id),S.sessions.map(s=>s.id),S.tariff.rules.map(r=>r.id)).forEach(id=>{
+    const m=String(id==null?'':id).match(/(\d+)$/);if(m)maxSeq=Math.max(maxSeq,+m[1]);
+  });
+  S.seq=maxSeq;
+  U.restorePending=null;U.veh='all';U.card='all';U.wb='all';U.month='all';U.delCard=null;U.delWb=null;U.rep=null;U.entry=null;U.delSess=null;imp=newImp();
+  save();render();toast('Sicherung wiederhergestellt: '+S.sessions.length+' '+(S.sessions.length===1?'Vorgang':'Vorgänge'));
+}
+async function exportData(){
+  const json=exportPayload();
+  let dl=null;
+  try{dl=window.claude&&window.claude.use?await window.claude.use('downloads'):null;}catch(e){dl=null;}
+  try{
+    if(dl){
+      await dl.save({filename:exportName(),data:new TextEncoder().encode(json).buffer});
+    }else{
+      let href,revoke=null;
+      try{const blob=new Blob([json],{type:'application/json'});href=URL.createObjectURL(blob);revoke=href;}
+      catch(e){href='data:application/json;charset=utf-8,'+encodeURIComponent(json);}
+      const a=document.createElement('a');
+      a.href=href;a.download=exportName();document.body.appendChild(a);a.click();a.remove();
+      if(revoke)setTimeout(()=>URL.revokeObjectURL(revoke),1000);
+    }
+    toast('Alle Daten exportiert');
+  }catch(e){
+    toast(e&&e.code==='declined'?'Export abgebrochen':'Die Daten ließen sich nicht exportieren');
+  }
+}
+
+/* ---------- Rendern und Ereignisse ---------- */
+function render(){
+  sanitize();
+  document.querySelectorAll('.tabs [data-tab]').forEach(b=>{
+    const on=b.dataset.tab===U.tab;
+    b.setAttribute('aria-selected',String(on));
+    if(on&&b.scrollIntoView){try{b.scrollIntoView({inline:'center',block:'nearest'});}catch(e){}}
+  });
+  const app=$('#app');
+  if(U.tab==='overview')app.innerHTML=overviewHTML();
+  else if(U.tab==='list')app.innerHTML=listHTML();
+  else if(U.tab==='report'){app.innerHTML=reportHTML();fitSheet();}
+  else if(U.tab==='import'){app.innerHTML=importHTML();renderImpResult();}
+  else app.innerHTML=adminHTML();
+}
+document.addEventListener('click',e=>{
+  const tb=e.target.closest('.tabs [data-tab]');
+  if(tb){U.tab=tb.dataset.tab;U.confirmReset=false;U.delCard=null;U.delWb=null;U.delSess=null;U.restorePending=null;render();window.scrollTo(0,0);return;}
+  const t=e.target.closest('[data-act]');if(!t)return;
+  switch(t.dataset.act){
+    case 'month':U.month=U.month===t.dataset.m?'all':t.dataset.m;render();break;
+    case 'metric':U.metric=t.dataset.v;render();break;
+    case 'goto-admin':U.tab='admin';render();window.scrollTo(0,0);break;
+    case 'goto-overview':U.tab='overview';render();window.scrollTo(0,0);break;
+    case 'sample':imp.text=SAMPLE;{const ta=$('#impText');if(ta)ta.value=SAMPLE;}parseImport();break;
+    case 'parse':{const ta=$('#impText');if(ta)imp.text=ta.value;parseImport();break;}
+    case 'do-import':doImport();break;
+    case 'add-veh':{
+      const i=$('#newVeh'),n=i?i.value.trim():'';
+      if(!n){toast('Gib dem Fahrzeug einen Namen');return;}
+      S.vehicles.push({id:'v'+(++S.seq),name:n});save();render();toast('Fahrzeug angelegt');break;}
+    case 'del-veh':{
+      const id=t.dataset.id;
+      S.vehicles=S.vehicles.filter(v=>v.id!==id);
+      S.cards.forEach(c=>{if(c.vehicleId===id)c.vehicleId=null;});
+      S.sessions.forEach(x=>{if(x.vehicleId===id)x.vehicleId=null;});
+      save();render();toast('Fahrzeug gelöscht, Karten und Vorgänge sind wieder ohne Fahrzeug');break;}
+    case 'add-card':{
+      const r=normRfid(($('#newRfid')||{}).value);
+      if(!r){toast('Gib die RFID der Karte ein');return;}
+      setCard(r,{name:(($('#newCardName')||{}).value||'').trim(),vehicleId:($('#newCardVeh')||{}).value||null});
+      save();render();toast('Karte gespeichert');break;}
+    case 'del-card':{
+      const r=t.dataset.id,n=S.sessions.filter(x=>x.rfid===r).length;
+      if(!n){S.cards=S.cards.filter(c=>c.rfid!==r);save();render();toast('Karte gelöscht');}
+      else{U.delCard=r;U.delWb=null;render();}
+      break;}
+    case 'card-move':{
+      const r=t.dataset.id,to=($('#moveTo')||{}).value;
+      if(!to){toast('Wähle eine Zielkarte');return;}
+      S.sessions.forEach(x=>{if(x.rfid===r)x.rfid=to;});
+      S.cards=S.cards.filter(c=>c.rfid!==r);
+      U.delCard=null;save();render();toast('Vorgänge verschoben, Karte gelöscht');break;}
+    case 'card-purge':{
+      const r=t.dataset.id,n=S.sessions.filter(x=>x.rfid===r).length;
+      S.sessions=S.sessions.filter(x=>x.rfid!==r);
+      S.cards=S.cards.filter(c=>c.rfid!==r);
+      U.delCard=null;save();render();toast('Karte und '+n+' '+(n===1?'Vorgang':'Vorgänge')+' gelöscht');break;}
+    case 'add-wb':{
+      const nm=(($('#newWbName')||{}).value||'').trim();
+      let id=(($('#newWbId')||{}).value||'').trim();
+      if(!nm){toast('Gib der Wallbox einen Namen');return;}
+      if(!id)id='wb-'+(++S.seq);
+      if(S.wallboxes.some(w=>w.id===id)){toast('Diese Wallbox-ID gibt es schon');return;}
+      S.wallboxes.push({id:id,name:nm});save();render();toast('Wallbox angelegt');break;}
+    case 'del-wb':{
+      const id=t.dataset.id,n=S.sessions.filter(x=>x.wbId===id).length;
+      if(!n){S.wallboxes=S.wallboxes.filter(w=>w.id!==id);save();render();toast('Wallbox gelöscht');}
+      else{U.delWb=id;U.delCard=null;render();}
+      break;}
+    case 'wb-move':{
+      const id=t.dataset.id,to=($('#moveTo')||{}).value;
+      if(!to){toast('Wähle eine Zielwallbox');return;}
+      S.sessions.forEach(x=>{if(x.wbId===id)x.wbId=to;});
+      S.wallboxes=S.wallboxes.filter(w=>w.id!==id);
+      U.delWb=null;save();render();toast('Vorgänge verschoben, Wallbox gelöscht');break;}
+    case 'wb-purge':{
+      const id=t.dataset.id,n=S.sessions.filter(x=>x.wbId===id).length;
+      S.sessions=S.sessions.filter(x=>x.wbId!==id);
+      S.wallboxes=S.wallboxes.filter(w=>w.id!==id);
+      U.delWb=null;save();render();toast('Wallbox und '+n+' '+(n===1?'Vorgang':'Vorgänge')+' gelöscht');break;}
+    case 'cancel-del':U.delCard=null;U.delWb=null;U.delSess=null;render();break;
+    case 'entry-new':U.entry=entryNew();render();break;
+    case 'entry-cancel':U.entry=null;render();break;
+    case 'entry-save':saveEntry();break;
+    case 'edit-sess':{const x=S.sessions.find(y=>y.id===t.dataset.id);if(x){U.entry=entryFrom(x);U.delSess=null;render();window.scrollTo(0,0);}break;}
+    case 'del-sess':U.delSess=t.dataset.id;render();break;
+    case 'sess-purge':{S.sessions=S.sessions.filter(x=>x.id!==t.dataset.id);U.delSess=null;save();render();toast('Vorgang gelöscht');break;}
+    case 'rep-kind':repSetKind(t.dataset.v);render();break;
+    case 'rep-print':try{window.print();}catch(x){toast('Drucken ist hier nicht möglich. Speichere das PDF.');}break;
+    case 'rep-pdf':savePDF();break;
+    case 'export-data':exportData();break;
+    case 'restore-confirm':if(U.restorePending)applyRestore(U.restorePending);break;
+    case 'restore-cancel':U.restorePending=null;render();break;
+    case 'add-rule':{
+      const from=(($('#newRuleFrom')||{}).value||'').trim(),wb=($('#newRuleWb')||{}).value||'all',pr=parseNum(($('#newRulePrice')||{}).value);
+      if(!/^\d{4}-\d{2}-\d{2}$/.test(from)){toast('Wähle ein Datum, ab dem der Preis gilt');return;}
+      if(pr==null||pr<=0){toast('Gib einen Preis größer 0 ein');return;}
+      S.tariff.rules.push({id:'r'+(++S.seq),from:from,wbId:wb,price:pr});
+      save();render();toast('Preisregel angelegt, Kosten neu berechnet');break;}
+    case 'del-rule':{
+      S.tariff.rules=S.tariff.rules.filter(r=>r.id!==t.dataset.id);
+      save();render();toast('Preisregel gelöscht');break;}
+    case 'reset':
+      if(!U.confirmReset){U.confirmReset=true;render();setTimeout(()=>{if(U.confirmReset){U.confirmReset=false;if(U.tab==='admin')render();}},4000);}
+      else{S=demo();try{localStorage.removeItem(STORE);}catch(x){}U.confirmReset=false;U.veh='all';U.card='all';U.wb='all';U.month='all';U.delCard=null;U.delWb=null;U.rep=null;U.entry=null;U.delSess=null;imp=newImp();render();toast('Sheet-Stand geladen');}
+      break;
+  }
+});
+document.addEventListener('change',e=>{
+  const t=e.target;
+  if(t.dataset.ef!==undefined&&U.entry){U.entry[t.dataset.ef]=t.value;if(t.dataset.ef==='place')render();else updateEntrySum();return;}
+  if(t.dataset.filter){U[t.dataset.filter]=t.value;if(t.dataset.filter==='veh')U.card='all';render();return;}
+  if(t.dataset.map){imp.map[t.dataset.map]=+t.value;saveMap();renderImpResult();return;}
+  if(t.dataset.rep!==undefined){U.rep[t.dataset.rep]=t.value;render();return;}
+  if(t.dataset.tpl!==undefined){S.report[t.dataset.tpl]=t.value;save();refreshSheet();return;}
+  if(t.dataset.block!==undefined){S.report.blocks[t.dataset.block]=t.checked;save();refreshSheet();return;}
+  if(t.dataset.rule!==undefined){
+    const r=S.tariff.rules.find(x=>x.id===t.dataset.rid);
+    if(!r)return;
+    if(t.dataset.rule==='from'){if(/^\d{4}-\d{2}-\d{2}$/.test(t.value))r.from=t.value;else{toast('Wähle ein gültiges Datum');render();return;}}
+    else if(t.dataset.rule==='wb')r.wbId=t.value;
+    else{const n=parseNum(t.value);if(n==null||n<=0){toast('Gib einen Preis größer 0 ein');render();return;}r.price=n;}
+    save();render();toast('Preisregel gespeichert, Kosten neu berechnet');return;
+  }
+  if(t.dataset.wbName!==undefined){
+    const w=S.wallboxes.find(x=>x.id===t.dataset.wbName),n=t.value.trim();
+    if(w&&n){w.name=n;save();toast('Name gespeichert');}else render();
+    return;
+  }
+  if(t.dataset.cardVeh!==undefined){setCard(t.dataset.cardVeh,{vehicleId:t.value||null});save();render();toast('Zuordnung gespeichert');return;}
+  if(t.dataset.cardName!==undefined){setCard(t.dataset.cardName,{name:t.value.trim()});save();return;}
+  if(t.dataset.vehName!==undefined){
+    const v=S.vehicles.find(x=>x.id===t.dataset.vehName),n=t.value.trim();
+    if(v&&n){v.name=n;save();toast('Name gespeichert');}else render();
+    return;
+  }
+  if(t.id==='restoreFile'&&t.files&&t.files[0]){
+    t.files[0].text().then(txt=>{
+      let data;
+      try{data=JSON.parse(txt);}catch(e){toast('Das ist keine gültige JSON-Datei');return;}
+      if(!data||!Array.isArray(data.sessions)||!Array.isArray(data.vehicles)||!Array.isArray(data.cards)){toast('Keine gültige Sicherungsdatei (falsches Format)');return;}
+      U.restorePending=data;render();
+    }).catch(()=>{toast('Die Datei lässt sich nicht lesen');});
+    return;
+  }
+  if(t.id==='impFile'&&t.files&&t.files[0]){
+    t.files[0].arrayBuffer().then(buf=>{
+      let txt;
+      try{txt=new TextDecoder('utf-8',{fatal:true}).decode(buf);}catch(x){txt=new TextDecoder('windows-1252').decode(buf);}
+      imp.text=txt;const ta=$('#impText');if(ta)ta.value=txt;parseImport();
+    }).catch(()=>{imp.err='Die Datei lässt sich nicht lesen. Füge den Inhalt stattdessen ins Feld ein.';renderImpResult();});
+  }
+});
+document.addEventListener('input',e=>{
+  if(e.target.id==='impText')imp.text=e.target.value;
+  if(e.target.dataset&&e.target.dataset.ef!==undefined&&U.entry){U.entry[e.target.dataset.ef]=e.target.value;updateEntrySum();}
+  if(e.target.dataset&&e.target.dataset.tpl!==undefined){S.report[e.target.dataset.tpl]=e.target.value;refreshSheet();}
+});
+document.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.matches&&e.target.matches('label.btn')){e.preventDefault();const i=e.target.querySelector('input');if(i)i.click();}});
+
+render();
+})();
+</script>
+</body>
+</html>
