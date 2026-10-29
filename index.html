@@ -243,7 +243,7 @@ textarea.sm{font:inherit;min-height:76px}
   <header class="head">
     <div>
       <h1>Ladekosten</h1>
-      <p class="sub">Daten aus Sheet und Wallbox-Export, Stand 30.09.2026</p>
+      <p class="sub">Daten aus Sheet, Wallbox-Export (Stand 30.09.2026) und Tesla-Supercharger-Export (Stand 29.10.2026)</p>
     </div>
     <span class="plate">Prototyp</span>
   </header>
@@ -265,7 +265,7 @@ textarea.sm{font:inherit;min-height:76px}
 (function(){
 'use strict';
 
-/* ---------- Startdaten: die 29 Vorgänge aus Sheet und Wallbox-Export (Stand 30.09.2026) ---------- */
+/* ---------- Startdaten: 29 Wallbox-Vorgänge aus Sheet und Wallbox-Export (Stand 30.09.2026) und 2 Supercharger-Vorgänge (Stand 29.10.2026) ---------- */
 const STORE='ladekosten-proto-v3', MAPSTORE='ladekosten-proto-map-v3';
 const WB_ID='KpKyezW3z2iaDmuXwtCMTe';
 const SC_WB_ID='tesla-supercharger';
@@ -300,13 +300,38 @@ const RAW=[
 ['2026-09-23T13:00:21','2026-09-23T14:48:36','B06522D5',8.91,3.04],
 ['2026-09-25T12:07:48','2026-09-27T08:55:14','B06522D5',17.64,6.02]
 ];
+/* Tesla-Supercharger-Export (Stand 29.10.2026): [Start (Ortszeit), Ort, kWh, Preis € je kWh, Kosten €].
+   Preis und Kosten gelten wie auf der Tesla-Rechnung (Total Inc. VAT); die Ladung vom 10.10. lief über Guthaben und kostet 0 €. */
+const RAW_SC=[
+['2026-10-10T10:18:42','Böblingen',59.4263,0,0],
+['2026-10-26T18:05:21','Böblingen',65.2378,0.38,24.79]
+];
+const SC_WB={id:SC_WB_ID,name:'Tesla Supercharger'};
+const scSession=(r,id,vehId)=>({id:id,wbId:SC_WB_ID,rfid:'',start:r[0],end:null,kwh:r[2],price:r[3],cost:r[4],loc:r[1],vehicleId:vehId,filePrice:r[3],fileCost:r[4]});
 function demo(){
   return {seq:100,
     vehicles:[{id:'v1',name:'Tesla Model 3'}],
     cards:[{rfid:'B06522D5',name:'',vehicleId:'v1'}],
-    wallboxes:[{id:WB_ID,name:'Keller'}],
+    wallboxes:[{id:WB_ID,name:'Keller'},Object.assign({},SC_WB)],
     tariff:{rules:[]},report:defaultReport(),
-    sessions:RAW.map((r,i)=>({id:'s'+i,wbId:WB_ID,rfid:r[2],start:r[0],end:r[1],kwh:r[3],price:0.34,cost:r[4],filePrice:0.34,fileCost:r[4]}))};
+    sessions:RAW.map((r,i)=>({id:'s'+i,wbId:WB_ID,rfid:r[2],start:r[0],end:r[1],kwh:r[3],price:0.34,cost:r[4],filePrice:0.34,fileCost:r[4]}))
+      .concat(RAW_SC.map((r,i)=>scSession(r,'s'+(RAW.length+i),'v1'))),
+    scSeen:RAW_SC.map(r=>r[0])};
+}
+/* Fest eingebaute Supercharger-Vorgänge einmalig in bereits gespeicherte Browser-Daten übernehmen.
+   Wer einen Vorgang später löscht, bekommt ihn nicht zurück (scSeen merkt sich, was schon übernommen wurde). */
+function mergeSC(o){
+  if(!Array.isArray(o.scSeen))o.scSeen=[];
+  const have=new Set(o.sessions.map(s=>s.wbId+'|'+s.start));
+  const vehId=o.vehicles[0]?o.vehicles[0].id:null;
+  RAW_SC.forEach(r=>{
+    if(o.scSeen.indexOf(r[0])>=0)return;
+    o.scSeen.push(r[0]);
+    if(have.has(SC_WB_ID+'|'+r[0]))return;
+    o.seq=(o.seq||0)+1;
+    o.sessions.push(scSession(r,'s'+o.seq,vehId));
+  });
+  if(o.sessions.some(s=>s.wbId===SC_WB_ID)&&!o.wallboxes.some(w=>w.id===SC_WB_ID))o.wallboxes.push(Object.assign({},SC_WB));
 }
 const SAMPLE=[
 'Tesla Model 3 - Falk Ehrlich;;;;;',
@@ -381,6 +406,7 @@ function load(){
         o.report=Object.assign(defaultReport(),o.report||{});
         o.report.blocks=Object.assign(defaultReport().blocks,o.report.blocks||{});
         o.sessions.forEach(s=>{if(s.fileCost==null){s.fileCost=s.cost;s.filePrice=s.price;}});
+        mergeSC(o);
         return o;
       }
     }
@@ -411,7 +437,7 @@ function applyTariff(){
   });
 }
 const U={tab:'overview',veh:'all',card:'all',wb:'all',month:'all',metric:'kwh',confirmReset:false,delCard:null,delWb:null,rep:null,entry:null,delSess:null,restorePending:null};
-function newImp(){return {text:'',headers:[],rows:null,map:{},err:'',done:null,skipped:0,format:'wallbox',teslaLocIdx:-1,teslaPriceIdx:-1};}
+function newImp(){return {text:'',headers:[],rows:null,map:{},err:'',done:null,skipped:0,format:'wallbox',teslaLocIdx:-1,teslaPriceIdx:-1,teslaTotalIdx:-1};}
 let imp=newImp();
 
 const cardOf=r=>S.cards.find(c=>c.rfid===r);
@@ -721,7 +747,7 @@ function isTeslaExport(h){
 }
 function teslaColIdx(h){
   const low=h.map(x=>String(x||'').toLowerCase().trim());
-  return {start:low.indexOf('chargestartdatetime'),loc:low.indexOf('sitelocationname'),kwh:low.indexOf('quantitybase'),price:low.indexOf('unitcostbase')};
+  return {start:low.indexOf('chargestartdatetime'),loc:low.indexOf('sitelocationname'),kwh:low.indexOf('quantitybase'),price:low.indexOf('unitcostbase'),total:low.indexOf('total inc. vat')};
 }
 function teslaLocClean(s){return String(s||'').replace(/,\s*Germany\b/i,'').trim();}
 function parseTeslaPrice(s){return parseNum(String(s||'').split('/')[0]);}
@@ -760,7 +786,7 @@ function parseImport(){
   if(imp.format==='tesla'){
     const ti=teslaColIdx(imp.headers);
     imp.map={start:ti.start,wallbox:-1,rfid:-1,kwh:ti.kwh};
-    imp.teslaLocIdx=ti.loc;imp.teslaPriceIdx=ti.price;
+    imp.teslaLocIdx=ti.loc;imp.teslaPriceIdx=ti.price;imp.teslaTotalIdx=ti.total;
   }else{
     imp.map=guessMap(imp.headers);
   }
@@ -825,7 +851,7 @@ function evalImport(){
   return {list:list,checks:checks};
 }
 function evalImportTesla(){
-  const si=imp.map.start,ki=imp.map.kwh,locIdx=imp.teslaLocIdx,priceIdx=imp.teslaPriceIdx;
+  const si=imp.map.start,ki=imp.map.kwh,locIdx=imp.teslaLocIdx,priceIdx=imp.teslaPriceIdx,totalIdx=imp.teslaTotalIdx;
   const seen=new Set(S.sessions.map(s=>s.wbId+'|'+s.start));
   const existing=new Map(S.sessions.map(s=>[s.wbId+'|'+s.start,s]));
   const changed=new Set();
@@ -839,7 +865,10 @@ function evalImportTesla(){
     if(kwh==null||kwh<0){list.push({status:'fehler',row:row,msg:'kWh nicht lesbar'});return;}
     let price=priceIdx>=0?parseTeslaPrice(r[priceIdx]):null;
     if(price==null||price<0)price=0;
-    const cost=Math.round(kwh*price*100)/100;
+    let cost=Math.round(kwh*price*100)/100;
+    /* Maßgeblich ist der Rechnungsbetrag (Total Inc. VAT): Guthaben-Ladungen stehen dort mit 0,00, obwohl ein Listenpreis je kWh dasteht */
+    const tot=totalIdx>=0?parseNum(String(r[totalIdx]==null?'':r[totalIdx]).trim()):null;
+    if(tot!=null&&tot>=0){cost=Math.round(tot*100)/100;if(kwh>0)price=Math.round(tot/kwh*10000)/10000;}
     const loc=locIdx>=0?teslaLocClean(r[locIdx]):'';
     const s={wbId:SC_WB_ID,rfid:'',start:start,end:null,kwh:kwh,price:price,cost:cost,loc:loc,vehicleId:vehId};
     const key=s.wbId+'|'+s.start;
@@ -863,7 +892,7 @@ function evalImportTesla(){
 function evalImportAny(){return imp.format==='tesla'?evalImportTesla():evalImport();}
 function importHTML(){
   return '<section class="sec" style="border-top:0;margin-top:14px"><h2>1. Datei laden</h2>'
-    +'<p class="hint">CSV oder Sheet-Export. Übernommen werden nur Zeitraum, Wallbox, Authentifizierung und geladene kWh; Preis und Kosten aus der Datei bleiben unberücksichtigt, der Preis je kWh kommt aus den Preisregeln in der Verwaltung. Titelzeilen, wiederholte Kopfzeilen, Gesamt-Zeilen, Dezimalkomma und Datumsformat erkennt das Tool selbst. Vorgänge, die es schon gibt, überspringt es. Tesla-Supercharger-Exporte (Tesla-eigenes Format) werden automatisch erkannt: dort gilt der in der Datei hinterlegte Preis je kWh, da er je Ladevorgang unterschiedlich ist.</p>'
+    +'<p class="hint">CSV oder Sheet-Export. Übernommen werden nur Zeitraum, Wallbox, Authentifizierung und geladene kWh; Preis und Kosten aus der Datei bleiben unberücksichtigt, der Preis je kWh kommt aus den Preisregeln in der Verwaltung. Titelzeilen, wiederholte Kopfzeilen, Gesamt-Zeilen, Dezimalkomma und Datumsformat erkennt das Tool selbst. Vorgänge, die es schon gibt, überspringt es. Tesla-Supercharger-Exporte (Tesla-eigenes Format) werden automatisch erkannt: dort gelten Preis und Betrag aus der Datei (Rechnungsbetrag; Ladungen über Guthaben kosten 0 €), da sie je Ladevorgang unterschiedlich sind.</p>'
     +'<div class="btnrow"><label class="btn ghost" tabindex="0">CSV-Datei wählen<input id="impFile" type="file" accept=".csv,.txt,text/csv,text/plain" hidden></label>'
     +'<button class="btn ghost" data-act="sample">Beispiel-CSV einfügen</button></div>'
     +'<textarea id="impText" spellcheck="false" aria-label="CSV-Inhalt" placeholder="…oder CSV-Inhalt hier einfügen">'+esc(imp.text)+'</textarea>'
@@ -982,7 +1011,7 @@ function adminHTML(){
   h+='<section class="sec"><h2>Daten</h2><p class="hint">Der Export speichert Fahrzeuge, Karten, Wallboxen, alle Vorgänge, Preisregeln und die Berichtsvorlage als JSON-Datei, zur Sicherung oder zum Umzug in eine andere Version.</p><div class="btnrow"><button class="btn ghost" data-act="export-data">Alle Daten exportieren</button></div>'
     +'<p class="hint" style="margin-top:18px">Eine zuvor exportierte Sicherung laden, zum Beispiel nach einem Umzug auf eine andere Adresse. Ersetzt alle aktuellen Daten in diesem Browser.</p>'
     +(U.restorePending?restoreConfirmHTML(U.restorePending):'<div class="btnrow"><label class="btn ghost" tabindex="0">Sicherung wiederherstellen<input id="restoreFile" type="file" accept=".json,application/json" hidden></label></div>')
-    +'<p class="hint" style="margin-top:18px">Setzt alles auf die 29 Vorgänge aus Sheet und Wallbox-Export (Stand 30.09.2026) zurück. Importierte Vorgänge, Fahrzeuge, Karten und Wallboxen gehen dabei verloren.</p><div class="btnrow"><button class="btn danger" data-act="reset">'+(U.confirmReset?'Wirklich zurücksetzen? Nochmal tippen':'Auf Sheet-Stand zurücksetzen')+'</button></div></section>';
+    +'<p class="hint" style="margin-top:18px">Setzt alles auf die 31 Vorgänge aus Sheet, Wallbox-Export (Stand 30.09.2026) und Tesla-Supercharger-Export (Stand 29.10.2026) zurück. Importierte Vorgänge, Fahrzeuge, Karten und Wallboxen gehen dabei verloren.</p><div class="btnrow"><button class="btn danger" data-act="reset">'+(U.confirmReset?'Wirklich zurücksetzen? Nochmal tippen':'Auf Sheet-Stand zurücksetzen')+'</button></div></section>';
   return h;
 }
 function wbOptions(sel){
