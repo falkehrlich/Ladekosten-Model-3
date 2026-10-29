@@ -265,7 +265,7 @@ textarea.sm{font:inherit;min-height:76px}
 (function(){
 'use strict';
 
-/* ---------- Startdaten: 29 Wallbox-Vorgänge aus Sheet und Wallbox-Export (Stand 30.09.2026) und 2 Supercharger-Vorgänge (Stand 29.10.2026) ---------- */
+/* ---------- Startdaten: 29 Wallbox-Vorgänge aus Sheet und Wallbox-Export (Stand 30.09.2026) und 7 Supercharger-Vorgänge (Stand 29.10.2026) ---------- */
 const STORE='ladekosten-proto-v3', MAPSTORE='ladekosten-proto-map-v3';
 const WB_ID='KpKyezW3z2iaDmuXwtCMTe';
 const SC_WB_ID='tesla-supercharger';
@@ -300,9 +300,14 @@ const RAW=[
 ['2026-09-23T13:00:21','2026-09-23T14:48:36','B06522D5',8.91,3.04],
 ['2026-09-25T12:07:48','2026-09-27T08:55:14','B06522D5',17.64,6.02]
 ];
-/* Tesla-Supercharger-Export (Stand 29.10.2026): [Start (Ortszeit), Ort, kWh, Preis € je kWh, Kosten €].
-   Preis und Kosten gelten wie auf der Tesla-Rechnung (Total Inc. VAT); die Ladung vom 10.10. lief über Guthaben und kostet 0 €. */
+/* Tesla-Supercharger-Exporte (Stand 29.10.2026): [Start (Ortszeit), Ort, kWh, Preis € je kWh, Kosten €].
+   Preis und Kosten gelten wie auf der Tesla-Rechnung (Total Inc. VAT); Ladungen über Guthaben (CHARGING : CREDIT) kosten 0 €. */
 const RAW_SC=[
+['2026-05-22T13:18:08','Böblingen',13.5183,0,0],
+['2026-05-22T13:28:00','Böblingen',29.4385,0,0],
+['2026-08-14T14:02:14','Leipzig - Rosa-Luxemburg-Straße',58.1925,0,0],
+['2026-08-15T13:28:21','Nempitz',32.2870,0,0],
+['2026-08-16T10:01:11','Bayreuth',39.5809,0,0],
 ['2026-10-10T10:18:42','Böblingen',59.4263,0,0],
 ['2026-10-26T18:05:21','Böblingen',65.2378,0.38,24.79]
 ];
@@ -1011,7 +1016,7 @@ function adminHTML(){
   h+='<section class="sec"><h2>Daten</h2><p class="hint">Der Export speichert Fahrzeuge, Karten, Wallboxen, alle Vorgänge, Preisregeln und die Berichtsvorlage als JSON-Datei, zur Sicherung oder zum Umzug in eine andere Version.</p><div class="btnrow"><button class="btn ghost" data-act="export-data">Alle Daten exportieren</button></div>'
     +'<p class="hint" style="margin-top:18px">Eine zuvor exportierte Sicherung laden, zum Beispiel nach einem Umzug auf eine andere Adresse. Ersetzt alle aktuellen Daten in diesem Browser.</p>'
     +(U.restorePending?restoreConfirmHTML(U.restorePending):'<div class="btnrow"><label class="btn ghost" tabindex="0">Sicherung wiederherstellen<input id="restoreFile" type="file" accept=".json,application/json" hidden></label></div>')
-    +'<p class="hint" style="margin-top:18px">Setzt alles auf die 31 Vorgänge aus Sheet, Wallbox-Export (Stand 30.09.2026) und Tesla-Supercharger-Export (Stand 29.10.2026) zurück. Importierte Vorgänge, Fahrzeuge, Karten und Wallboxen gehen dabei verloren.</p><div class="btnrow"><button class="btn danger" data-act="reset">'+(U.confirmReset?'Wirklich zurücksetzen? Nochmal tippen':'Auf Sheet-Stand zurücksetzen')+'</button></div></section>';
+    +'<p class="hint" style="margin-top:18px">Setzt alles auf die 36 Vorgänge aus Sheet, Wallbox-Export (Stand 30.09.2026) und Tesla-Supercharger-Export (Stand 29.10.2026) zurück. Importierte Vorgänge, Fahrzeuge, Karten und Wallboxen gehen dabei verloren.</p><div class="btnrow"><button class="btn danger" data-act="reset">'+(U.confirmReset?'Wirklich zurücksetzen? Nochmal tippen':'Auf Sheet-Stand zurücksetzen')+'</button></div></section>';
   return h;
 }
 function wbOptions(sel){
