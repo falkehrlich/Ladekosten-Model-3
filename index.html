@@ -243,7 +243,7 @@ textarea.sm{font:inherit;min-height:76px}
   <header class="head">
     <div>
       <h1>Ladekosten</h1>
-      <p class="sub">Daten aus Sheet, Wallbox-Export (Stand 30.09.2026) und Tesla-Supercharger-Export (Stand 29.10.2026)</p>
+      <p class="sub">Daten aus Sheet, Wallbox-Export (Stand 30.10.2026) und Tesla-Supercharger-Export (Stand 29.10.2026)</p>
     </div>
     <span class="plate">Prototyp</span>
   </header>
@@ -265,7 +265,7 @@ textarea.sm{font:inherit;min-height:76px}
 (function(){
 'use strict';
 
-/* ---------- Startdaten: 29 Wallbox-Vorgänge aus Sheet und Wallbox-Export (Stand 30.09.2026) und 7 Supercharger-Vorgänge (Stand 29.10.2026) ---------- */
+/* ---------- Startdaten: 34 Wallbox-Vorgänge aus Sheet und Wallbox-Export (Stand 30.10.2026) und 7 Supercharger-Vorgänge (Stand 29.10.2026) ---------- */
 const STORE='ladekosten-proto-v3', MAPSTORE='ladekosten-proto-map-v3';
 const WB_ID='KpKyezW3z2iaDmuXwtCMTe';
 const SC_WB_ID='tesla-supercharger';
@@ -298,8 +298,15 @@ const RAW=[
 ['2026-09-02T12:42:23','2026-09-03T21:06:26','B06522D5',17.83,6.08],
 ['2026-09-22T15:58:07','2026-09-22T19:11:35','B06522D5',3.87,1.32],
 ['2026-09-23T13:00:21','2026-09-23T14:48:36','B06522D5',8.91,3.04],
-['2026-09-25T12:07:48','2026-09-27T08:55:14','B06522D5',17.64,6.02]
+['2026-09-25T12:07:48','2026-09-27T08:55:14','B06522D5',17.64,6.02],
+['2026-10-04T11:41:58','2026-10-05T07:27:17','B06522D5',12.84,4.38],
+['2026-10-06T12:30:12','2026-10-06T13:44:57','B06522D5',4.41,1.50],
+['2026-10-06T14:41:33','2026-10-07T07:29:19','B06522D5',7.09,2.42],
+['2026-10-07T12:24:03','2026-10-08T08:00:01','B06522D5',8.13,2.77],
+['2026-10-16T13:53:03','2026-10-16T18:59:40','B06522D5',8.10,2.75]
 ];
+/* Die ersten 29 Vorgänge (bis September) gelten in älteren Browser-Ständen als schon übernommen. Alles danach wird einmalig nachgetragen. */
+const RAW_BASE=29;
 /* Tesla-Supercharger-Exporte (Stand 29.10.2026): [Start (Ortszeit), Ort, kWh, Preis € je kWh, Kosten €].
    Preis und Kosten gelten wie auf der Tesla-Rechnung (Total Inc. VAT); Ladungen über Guthaben (CHARGING : CREDIT) kosten 0 €. */
 const RAW_SC=[
@@ -321,7 +328,22 @@ function demo(){
     tariff:{rules:[]},report:defaultReport(),
     sessions:RAW.map((r,i)=>({id:'s'+i,wbId:WB_ID,rfid:r[2],start:r[0],end:r[1],kwh:r[3],price:0.34,cost:r[4],filePrice:0.34,fileCost:r[4]}))
       .concat(RAW_SC.map((r,i)=>scSession(r,'s'+(RAW.length+i),'v1'))),
-    scSeen:RAW_SC.map(r=>r[0])};
+    scSeen:RAW_SC.map(r=>r[0]),
+    rawSeen:RAW.map(r=>r[0])};
+}
+/* Fest eingebaute Wallbox-Vorgänge (RAW) ab Index RAW_BASE einmalig in bereits gespeicherte Browser-Daten übernehmen.
+   Gelöschte Vorgänge kommen nicht zurück (rawSeen merkt sich, was schon übernommen wurde). */
+function mergeRAW(o){
+  if(!Array.isArray(o.rawSeen))o.rawSeen=RAW.slice(0,RAW_BASE).map(r=>r[0]);
+  const have=new Set(o.sessions.map(s=>s.wbId+'|'+s.start));
+  RAW.forEach(r=>{
+    if(o.rawSeen.indexOf(r[0])>=0)return;
+    o.rawSeen.push(r[0]);
+    if(have.has(WB_ID+'|'+r[0]))return;
+    o.seq=(o.seq||0)+1;
+    o.sessions.push({id:'s'+o.seq,wbId:WB_ID,rfid:r[2],start:r[0],end:r[1],kwh:r[3],price:0.34,cost:r[4],filePrice:0.34,fileCost:r[4]});
+  });
+  if(o.sessions.some(s=>s.wbId===WB_ID)&&!o.wallboxes.some(w=>w.id===WB_ID))o.wallboxes.push({id:WB_ID,name:'Keller'});
 }
 /* Fest eingebaute Supercharger-Vorgänge einmalig in bereits gespeicherte Browser-Daten übernehmen.
    Wer einen Vorgang später löscht, bekommt ihn nicht zurück (scSeen merkt sich, was schon übernommen wurde). */
@@ -411,6 +433,7 @@ function load(){
         o.report=Object.assign(defaultReport(),o.report||{});
         o.report.blocks=Object.assign(defaultReport().blocks,o.report.blocks||{});
         o.sessions.forEach(s=>{if(s.fileCost==null){s.fileCost=s.cost;s.filePrice=s.price;}});
+        mergeRAW(o);
         mergeSC(o);
         return o;
       }
@@ -1016,7 +1039,7 @@ function adminHTML(){
   h+='<section class="sec"><h2>Daten</h2><p class="hint">Der Export speichert Fahrzeuge, Karten, Wallboxen, alle Vorgänge, Preisregeln und die Berichtsvorlage als JSON-Datei, zur Sicherung oder zum Umzug in eine andere Version.</p><div class="btnrow"><button class="btn ghost" data-act="export-data">Alle Daten exportieren</button></div>'
     +'<p class="hint" style="margin-top:18px">Eine zuvor exportierte Sicherung laden, zum Beispiel nach einem Umzug auf eine andere Adresse. Ersetzt alle aktuellen Daten in diesem Browser.</p>'
     +(U.restorePending?restoreConfirmHTML(U.restorePending):'<div class="btnrow"><label class="btn ghost" tabindex="0">Sicherung wiederherstellen<input id="restoreFile" type="file" accept=".json,application/json" hidden></label></div>')
-    +'<p class="hint" style="margin-top:18px">Setzt alles auf die 36 Vorgänge aus Sheet, Wallbox-Export (Stand 30.09.2026) und Tesla-Supercharger-Export (Stand 29.10.2026) zurück. Importierte Vorgänge, Fahrzeuge, Karten und Wallboxen gehen dabei verloren.</p><div class="btnrow"><button class="btn danger" data-act="reset">'+(U.confirmReset?'Wirklich zurücksetzen? Nochmal tippen':'Auf Sheet-Stand zurücksetzen')+'</button></div></section>';
+    +'<p class="hint" style="margin-top:18px">Setzt alles auf die 41 Vorgänge aus Sheet, Wallbox-Export (Stand 30.10.2026) und Tesla-Supercharger-Export (Stand 29.10.2026) zurück. Importierte Vorgänge, Fahrzeuge, Karten und Wallboxen gehen dabei verloren.</p><div class="btnrow"><button class="btn danger" data-act="reset">'+(U.confirmReset?'Wirklich zurücksetzen? Nochmal tippen':'Auf Sheet-Stand zurücksetzen')+'</button></div></section>';
   return h;
 }
 function wbOptions(sel){
