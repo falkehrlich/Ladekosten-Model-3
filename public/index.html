@@ -235,6 +235,12 @@ textarea.sm{font:inherit;min-height:76px}
 /* Rückmeldung */
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(20px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:6px;font-weight:600;z-index:50;opacity:0;pointer-events:none;transition:opacity .2s;max-width:calc(100% - 32px)}
 .toast.on{opacity:1}
+.sync{margin:0 0 10px;padding:9px 12px;border:1.5px solid var(--line);border-radius:8px;background:var(--surface);font-size:14.5px;display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px}
+.sync.quiet{border-color:transparent;background:transparent;color:var(--muted);padding:0 2px;font-size:13.5px}
+.sync.warn{border-color:var(--bad);background:var(--bad-soft)}
+.sync .msg{flex:1 1 240px}
+.sync input{font:inherit;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:6px;padding:7px 10px;min-height:36px;width:150px}
+.sync .btnrow{display:flex;flex-wrap:wrap;gap:8px;margin:0}
 @media (prefers-reduced-motion:reduce){.toast{transition:none}}
 </style>
 </head>
@@ -247,6 +253,7 @@ textarea.sm{font:inherit;min-height:76px}
     </div>
     <span class="plate">Prototyp</span>
   </header>
+  <div id="sync" class="sync quiet no-print" role="status" aria-live="polite"></div>
   <nav class="tabs" role="tablist" aria-label="Bereiche">
     <button role="tab" data-tab="overview">Übersicht</button>
     <button role="tab" data-tab="list">Vorgänge</button>
@@ -255,7 +262,7 @@ textarea.sm{font:inherit;min-height:76px}
     <button role="tab" data-tab="admin">Verwaltung</button>
   </nav>
   <main id="app"></main>
-  <p class="foot">Die Daten bleiben in diesem Browser. Summen rechnet das Tool immer aus den Einzelzeilen, nie aus Summenzeilen der Datei.</p>
+  <p class="foot">Die Daten liegen in der Datenbank (Netlify) und als Kopie in diesem Browser. Summen rechnet das Tool immer aus den Einzelzeilen, nie aus Summenzeilen der Datei.</p>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
@@ -422,28 +429,144 @@ function defaultReport(){
   return {title:'Ladekostenabrechnung',sender:'Falk Ehrlich',recipient:'',intro:'',footer:'',
     blocks:{kpi:true,breakdown:true,sessions:false,price:true,sign:false}};
 }
+/* Prüft und ergänzt einen gespeicherten Stand (aus Browser oder Datenbank) und trägt neue fest eingebaute Daten nach. */
+function normState(o){
+  if(!(o&&Array.isArray(o.sessions)&&Array.isArray(o.vehicles)&&Array.isArray(o.cards)))return null;
+  o.wallboxes=Array.isArray(o.wallboxes)?o.wallboxes:[];
+  o.tariff=o.tariff&&Array.isArray(o.tariff.rules)?o.tariff:{rules:[]};
+  o.report=Object.assign(defaultReport(),o.report||{});
+  o.report.blocks=Object.assign(defaultReport().blocks,o.report.blocks||{});
+  o.sessions.forEach(s=>{if(s.fileCost==null){s.fileCost=s.cost;s.filePrice=s.price;}});
+  mergeRAW(o);
+  mergeSC(o);
+  return o;
+}
 function load(){
   try{
     const j=localStorage.getItem(STORE);
-    if(j){
-      const o=JSON.parse(j);
-      if(o&&Array.isArray(o.sessions)&&Array.isArray(o.vehicles)&&Array.isArray(o.cards)){
-        o.wallboxes=Array.isArray(o.wallboxes)?o.wallboxes:[];
-        o.tariff=o.tariff&&Array.isArray(o.tariff.rules)?o.tariff:{rules:[]};
-        o.report=Object.assign(defaultReport(),o.report||{});
-        o.report.blocks=Object.assign(defaultReport().blocks,o.report.blocks||{});
-        o.sessions.forEach(s=>{if(s.fileCost==null){s.fileCost=s.cost;s.filePrice=s.price;}});
-        mergeRAW(o);
-        mergeSC(o);
-        return o;
-      }
-    }
+    if(j){const o=normState(JSON.parse(j));if(o)return o;}
   }catch(e){}
   return demo();
 }
-function save(){applyTariff();try{localStorage.setItem(STORE,JSON.stringify(S));}catch(e){}}
+function cacheLocal(){try{localStorage.setItem(STORE,JSON.stringify(S));}catch(e){}}
+function save(){applyTariff();cacheLocal();syChanged();}
 let S=load();
 applyTariff();
+/* ---------- Abgleich mit der Datenbank (Netlify Function /api/state) ----------
+   Lesen ist offen, Schreiben braucht die PIN (einmal pro Gerät). Der Browser-Speicher bleibt als Kopie erhalten. */
+const API='/api/state',META='ladekosten-sync-v1',PINKEY='ladekosten-pin-v1';
+const SY={version:0,dirty:false,status:'start',busy:false,rev:0,timer:null,srv:null,extra:0,msg:''};
+function syMeta(){try{const m=JSON.parse(localStorage.getItem(META)||'null');if(m){SY.version=+m.version||0;SY.dirty=!!m.dirty;}}catch(e){}}
+function syStore(){try{localStorage.setItem(META,JSON.stringify({version:SY.version,dirty:SY.dirty}));}catch(e){}}
+function syPin(){try{return localStorage.getItem(PINKEY)||'';}catch(e){return '';}}
+const sKey=s=>s.wbId+'|'+s.start;
+/* Eingebaute Vorgänge (RAW, RAW_SC) kennt jedes Gerät selbst; sie zählen nicht als „nur lokal“. */
+const isBaked=s=>(s.wbId===WB_ID&&RAW.some(r=>r[0]===s.start))||(s.wbId===SC_WB_ID&&RAW_SC.some(r=>r[0]===s.start));
+function onlyLocal(d,skipBaked){const have=new Set((d.sessions||[]).map(sKey));return S.sessions.filter(s=>!have.has(sKey(s))&&!(skipBaked&&isBaked(s)));}
+function syChanged(){
+  SY.rev++;SY.dirty=true;syStore();
+  clearTimeout(SY.timer);SY.timer=setTimeout(syPush,500);
+  if(SY.status==='ok')syBar();
+}
+function syBar(){
+  const el=$('#sync');if(!el)return;
+  const st=SY.status;
+  const b=(a,t,c)=>'<button class="btn sm '+(c||'')+'" data-act="'+a+'">'+t+'</button>';
+  const n=S.sessions.length;
+  let h='',cls='sync';
+  if(st==='ok'){cls+=' quiet';h=SY.dirty?'Speichert …':'Gespeichert in der Datenbank · Stand '+SY.version;}
+  else if(st==='lade'||st==='speichert'||st==='start'){cls+=' quiet';h=st==='lade'?'Lade aus der Datenbank …':'Speichert …';}
+  else if(st==='pin'){
+    h='<span class="msg"><b>'+(SY.msg?esc(SY.msg)+' ':'')+'PIN eingeben</b>, damit Änderungen in der Datenbank gespeichert werden. Bis dahin liegen sie nur auf diesem Gerät.</span>'
+      +'<input type="password" id="syPin" autocomplete="current-password" placeholder="PIN" aria-label="PIN">'+b('sy-pin','Freischalten');
+  }
+  else if(st==='leer'){h='<span class="msg">Die Datenbank ist noch leer. Stand dieses Geräts ('+n+' '+(n===1?'Vorgang':'Vorgänge')+') dorthin übernehmen?</span>'+b('sy-init','Übernehmen');}
+  else if(st==='conflict'){
+    cls+=' warn';
+    h='<span class="msg"><b>Anderer Stand in der Datenbank</b> (Version '+(SY.srv?SY.srv.version:'?')+'). '
+      +(SY.extra?'Dieses Gerät hat '+SY.extra+' '+(SY.extra===1?'Vorgang':'Vorgänge')+', die dort fehlen. ':'')+'Was soll gelten?</span>'
+      +'<div class="btnrow">'+b('sy-load','Datenbank-Stand laden','ghost')+(SY.extra?b('sy-merge','Fehlende Vorgänge ergänzen'):'')+b('sy-keep','Meinen Stand behalten','danger')+'</div>';
+  }
+  else if(st==='fehler'){cls+=' warn';h='<span class="msg">'+esc(SY.msg||'Fehler beim Speichern.')+'</span>'+b('sy-retry','Erneut versuchen');}
+  else{ // offline
+    if(SY.dirty){cls+=' warn';h='<span class="msg">Datenbank nicht erreichbar. Änderungen bleiben auf diesem Gerät und werden gesendet, sobald es wieder klappt.</span>'+b('sy-retry','Erneut versuchen');}
+    else{cls+=' quiet';h='Nur lokal: Datenbank nicht erreichbar.';}
+  }
+  el.className=cls;el.innerHTML=h;
+}
+async function syGet(){
+  const r=await fetch(API,{cache:'no-store'});
+  if(!r.ok)throw new Error('HTTP '+r.status);
+  return r.json();
+}
+function syAdopt(doc){
+  const n0=doc.data.sessions.length;
+  const o=normState(doc.data);
+  if(!o){SY.status='fehler';SY.msg='Die Daten in der Datenbank sind nicht lesbar.';syBar();return;}
+  S=o;SY.version=doc.version;SY.srv=null;SY.extra=0;SY.msg='';
+  SY.dirty=o.sessions.length>n0; // neu eingebaute Daten müssen noch in die Datenbank
+  applyTariff();cacheLocal();syStore();
+  SY.status='ok';render();syBar();
+  if(SY.dirty)syPush();
+}
+function syDecide(doc){
+  if(!doc||doc.version===0||!doc.data){SY.status='leer';SY.srv=null;syBar();return;}
+  SY.srv=doc;SY.extra=onlyLocal(doc.data,true).length;const extraAll=onlyLocal(doc.data,false).length;
+  if(SY.dirty){
+    if(SY.version===doc.version){SY.status='ok';syBar();syPush();return;}
+    SY.status='conflict';syBar();return;
+  }
+  if(SY.version===doc.version){
+    if(extraAll>0){SY.dirty=true;syStore();SY.status='ok';syBar();syPush();}
+    else{SY.status='ok';syBar();}
+    return;
+  }
+  if(SY.version>0||SY.extra===0){syAdopt(doc);return;}
+  SY.status='conflict';syBar();
+}
+async function syInit(){
+  syMeta();
+  if(typeof fetch!=='function'){SY.status='offline';syBar();return;}
+  SY.status='lade';syBar();
+  try{syDecide(await syGet());}catch(e){SY.status='offline';syBar();}
+}
+async function syRefresh(){
+  if(typeof fetch!=='function'||SY.busy||SY.dirty||SY.status!=='ok'||U.entry||U.restorePending)return;
+  try{const doc=await syGet();if(doc&&doc.version>SY.version&&doc.data&&!SY.dirty&&!SY.busy&&!U.entry)syAdopt(doc);}catch(e){}
+}
+async function syPush(){
+  clearTimeout(SY.timer);
+  if(typeof fetch!=='function')return;
+  if(SY.status==='start'||SY.status==='lade'||SY.status==='conflict'||SY.status==='leer')return;
+  if(SY.busy){return;}
+  const pin=syPin();
+  if(!pin){SY.status='pin';syBar();return;}
+  SY.busy=true;const rev=SY.rev;SY.status='speichert';syBar();
+  let again=false;
+  try{
+    const r=await fetch(API,{method:'PUT',headers:{'content-type':'application/json','x-write-pin':pin},body:JSON.stringify({baseVersion:SY.version,data:S})});
+    if(r.status===401){try{localStorage.removeItem(PINKEY);}catch(e){}SY.status='pin';SY.msg='PIN falsch.';}
+    else if(r.status===409){const doc=await r.json();SY.busy=false;SY.status='ok';SY.dirty=true;syDecide(doc);return;}
+    else if(!r.ok){let m='';try{m=(await r.json()).error||'';}catch(e){}SY.status='fehler';SY.msg='Speichern fehlgeschlagen'+(m?': '+m.replace(/\.$/,''):' (Fehler '+r.status+')')+'.';}
+    else{
+      const j=await r.json();SY.version=j.version;SY.msg='';SY.status='ok';
+      if(SY.rev===rev)SY.dirty=false;else again=true;
+      syStore();
+    }
+  }catch(e){SY.status='offline';}
+  SY.busy=false;syBar();
+  if(again)syPush();
+}
+function syMerge(){
+  const d=SY.srv.data,extra=onlyLocal(d,true),ids=new Set(d.sessions.map(x=>x.id));
+  d.seq=d.seq||0;
+  extra.forEach(x=>{let id;do{id='s'+(++d.seq);}while(ids.has(id));ids.add(id);d.sessions.push(Object.assign({},x,{id:id}));});
+  const o=normState(d);if(!o)return;
+  S=o;SY.version=SY.srv.version;SY.dirty=true;SY.srv=null;SY.extra=0;SY.status='ok';
+  applyTariff();cacheLocal();syStore();render();syBar();syPush();
+}
+window.addEventListener('online',()=>{if(SY.status==='offline'){if(SY.dirty)syPush();else syInit();}});
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')syRefresh();});
 /* Preisregeln: die jüngste Regel vor dem Vorgang gilt, bei gleichem Datum schlägt eine Wallbox-Regel die Regel für alle */
 function priceFor(s){
   if(s.manual||s.wbId===SC_WB_ID)return null;
@@ -1037,7 +1160,7 @@ function adminHTML(){
   h+='<h3 style="margin:22px 0 4px;font-size:22px">Neue Wallbox anlegen</h3><div class="cfields" style="margin-top:8px"><input type="text" id="newWbName" placeholder="Name, zum Beispiel Büro" aria-label="Name der neuen Wallbox"><input type="text" id="newWbId" placeholder="ID aus der CSV (optional)" aria-label="ID der neuen Wallbox"></div><p class="hint">Der Import ordnet Vorgänge über die ID zu, ohne ID über den Namen. Unbekannte Wallboxen legt er selbst an.</p><div class="btnrow"><button class="btn" data-act="add-wb">Wallbox anlegen</button></div></section>';
   h+=tariffHTML();
   h+='<section class="sec"><h2>Daten</h2><p class="hint">Der Export speichert Fahrzeuge, Karten, Wallboxen, alle Vorgänge, Preisregeln und die Berichtsvorlage als JSON-Datei, zur Sicherung oder zum Umzug in eine andere Version.</p><div class="btnrow"><button class="btn ghost" data-act="export-data">Alle Daten exportieren</button></div>'
-    +'<p class="hint" style="margin-top:18px">Eine zuvor exportierte Sicherung laden, zum Beispiel nach einem Umzug auf eine andere Adresse. Ersetzt alle aktuellen Daten in diesem Browser.</p>'
+    +'<p class="hint" style="margin-top:18px">Eine zuvor exportierte Sicherung laden, zum Beispiel nach einem Umzug auf eine andere Adresse. Ersetzt alle aktuellen Daten, auf allen Geräten.</p>'
     +(U.restorePending?restoreConfirmHTML(U.restorePending):'<div class="btnrow"><label class="btn ghost" tabindex="0">Sicherung wiederherstellen<input id="restoreFile" type="file" accept=".json,application/json" hidden></label></div>')
     +'<p class="hint" style="margin-top:18px">Setzt alles auf die 41 Vorgänge aus Sheet, Wallbox-Export (Stand 30.10.2026) und Tesla-Supercharger-Export (Stand 29.10.2026) zurück. Importierte Vorgänge, Fahrzeuge, Karten und Wallboxen gehen dabei verloren.</p><div class="btnrow"><button class="btn danger" data-act="reset">'+(U.confirmReset?'Wirklich zurücksetzen? Nochmal tippen':'Auf Sheet-Stand zurücksetzen')+'</button></div></section>';
   return h;
@@ -1369,7 +1492,7 @@ function exportPayload(){
 function restoreConfirmHTML(d){
   const n=Array.isArray(d.sessions)?d.sessions.length:0;
   const when=d.exportedAt?fD(String(d.exportedAt).slice(0,10)+'T00:00:00'):'unbekanntem Zeitpunkt';
-  return '<div class="confirm"><p><b>Sicherung wiederherstellen?</b> Enthält '+n+' '+(n===1?'Vorgang':'Vorgänge')+', erstellt am '+esc(when)+'. Ersetzt alle aktuellen Daten in diesem Browser, das lässt sich nicht rückgängig machen.</p>'
+  return '<div class="confirm"><p><b>Sicherung wiederherstellen?</b> Enthält '+n+' '+(n===1?'Vorgang':'Vorgänge')+', erstellt am '+esc(when)+'. Ersetzt alle aktuellen Daten auf allen Geräten, das lässt sich nicht rückgängig machen.</p>'
     +'<div class="btnrow"><button class="btn danger sm" data-act="restore-confirm">Ersetzen</button><button class="btn ghost sm" data-act="restore-cancel">Abbrechen</button></div></div>';
 }
 function applyRestore(data){
@@ -1431,6 +1554,12 @@ document.addEventListener('click',e=>{
   if(tb){U.tab=tb.dataset.tab;U.confirmReset=false;U.delCard=null;U.delWb=null;U.delSess=null;U.restorePending=null;render();window.scrollTo(0,0);return;}
   const t=e.target.closest('[data-act]');if(!t)return;
   switch(t.dataset.act){
+    case 'sy-pin':{const v=(($('#syPin')||{}).value||'').trim();if(!v)break;try{localStorage.setItem(PINKEY,v);}catch(x){}SY.msg='';SY.status='ok';SY.dirty=true;syStore();syPush();break;}
+    case 'sy-init':SY.version=0;SY.dirty=true;SY.status='ok';syStore();syPush();break;
+    case 'sy-retry':if(SY.dirty){SY.status='ok';syPush();}else syInit();break;
+    case 'sy-load':if(SY.srv)syAdopt(SY.srv);break;
+    case 'sy-merge':if(SY.srv)syMerge();break;
+    case 'sy-keep':if(SY.srv){SY.version=SY.srv.version;SY.dirty=true;SY.srv=null;SY.extra=0;SY.status='ok';syStore();syPush();}break;
     case 'month':U.month=U.month===t.dataset.m?'all':t.dataset.m;render();break;
     case 'metric':U.metric=t.dataset.v;render();break;
     case 'goto-admin':U.tab='admin';render();window.scrollTo(0,0);break;
@@ -1516,7 +1645,7 @@ document.addEventListener('click',e=>{
       save();render();toast('Preisregel gelöscht');break;}
     case 'reset':
       if(!U.confirmReset){U.confirmReset=true;render();setTimeout(()=>{if(U.confirmReset){U.confirmReset=false;if(U.tab==='admin')render();}},4000);}
-      else{S=demo();try{localStorage.removeItem(STORE);}catch(x){}U.confirmReset=false;U.veh='all';U.card='all';U.wb='all';U.month='all';U.delCard=null;U.delWb=null;U.rep=null;U.entry=null;U.delSess=null;imp=newImp();render();toast('Sheet-Stand geladen');}
+      else{S=demo();U.confirmReset=false;U.veh='all';U.card='all';U.wb='all';U.month='all';U.delCard=null;U.delWb=null;U.rep=null;U.entry=null;U.delSess=null;imp=newImp();save();render();toast('Sheet-Stand geladen');}
       break;
   }
 });
@@ -1570,8 +1699,10 @@ document.addEventListener('input',e=>{
   if(e.target.dataset&&e.target.dataset.ef!==undefined&&U.entry){U.entry[e.target.dataset.ef]=e.target.value;updateEntrySum();}
   if(e.target.dataset&&e.target.dataset.tpl!==undefined){S.report[e.target.dataset.tpl]=e.target.value;refreshSheet();}
 });
-document.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.matches&&e.target.matches('label.btn')){e.preventDefault();const i=e.target.querySelector('input');if(i)i.click();}});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target&&e.target.id==='syPin'){e.preventDefault();const bt=document.querySelector('[data-act="sy-pin"]');if(bt)bt.click();return;}
+  if((e.key==='Enter'||e.key===' ')&&e.target.matches&&e.target.matches('label.btn')){e.preventDefault();const i=e.target.querySelector('input');if(i)i.click();}});
 
+syInit();
 render();
 })();
 </script>
