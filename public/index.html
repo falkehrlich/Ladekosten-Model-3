@@ -547,7 +547,7 @@ async function syPush(){
     const r=await fetch(API,{method:'PUT',headers:{'content-type':'application/json','x-write-pin':pin},body:JSON.stringify({baseVersion:SY.version,data:S})});
     if(r.status===401){try{localStorage.removeItem(PINKEY);}catch(e){}SY.status='pin';SY.msg='PIN falsch.';}
     else if(r.status===409){const doc=await r.json();SY.busy=false;SY.status='ok';SY.dirty=true;syDecide(doc);return;}
-    else if(!r.ok){let m='';try{m=(await r.json()).error||'';}catch(e){}SY.status='fehler';SY.msg='Speichern fehlgeschlagen'+(m?': '+m:' (Fehler '+r.status+')')+'.';}
+    else if(!r.ok){let m='';try{m=(await r.json()).error||'';}catch(e){}SY.status='fehler';SY.msg='Speichern fehlgeschlagen'+(m?': '+m.replace(/\.$/,''):' (Fehler '+r.status+')')+'.';}
     else{
       const j=await r.json();SY.version=j.version;SY.msg='';SY.status='ok';
       if(SY.rev===rev)SY.dirty=false;else again=true;
