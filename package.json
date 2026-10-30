@@ -1,0 +1,10 @@
+{
+  "name": "ladekosten-model-3",
+  "private": true,
+  "type": "module",
+  "description": "Ladekosten-Dashboard für den Tesla Model 3",
+  "dependencies": {
+    "@netlify/database": "^2.0.1",
+    "@netlify/functions": "^6.0.3"
+  }
+}
